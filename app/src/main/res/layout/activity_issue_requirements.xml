@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/tob_actionbar"
+        android:id="@+id/issue_include"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/issue_include"
+        android:layout_above="@+id/issue_bottom_include"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
+
+                <TextView
+                    android:id="@+id/title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_marginTop="10dp"
+                    android:text="选择求租类型："
+                    android:textStyle="bold"
+                    android:textColor="#f44336"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/tv_request_classify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_marginTop="10dp"
+                    android:text="未选择"
+                    android:layout_toRightOf="@+id/title_text"
+                    android:textStyle="bold"
+                    android:textColor="#f44336"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/request_classify_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/title_text"
+                    android:layout_marginLeft="130dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/title_text"
+                    android:background="@drawable/bg_edit"
+                    android:entries="@array/request_classify" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/dimen_38dp" />
+
+
+            <EditText
+                android:id="@+id/issue_request_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:inputType="text"
+                android:hint="[求租]" />
+
+            <View
+
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="#aa000000" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/dimen_38dp" />
+
+            <EditText
+                android:id="@+id/issue_request_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_690dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="[描述一下需求的故事或者细节]"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="价格:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_38dp" />
+
+                <EditText
+                    android:id="@+id/issue_request_expense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入租用价格"
+                    android:inputType="number"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="地点:"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_38dp" />
+
+                <EditText
+                    android:id="@+id/issue_request_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入需求地点"
+                    android:inputType="text"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_issue"
+        android:id="@+id/issue_bottom_include"/>
+</RelativeLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/equip_image"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="@dimen/dimen_5dp"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/equip_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/equip_property"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="名称"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/equip_property"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/equip_name"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:singleLine="true"
+            android:text="性能参数" />
+
+        <TextView
+            android:id="@+id/equip_address"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/equip_property"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
+            android:singleLine="true"
+            android:text="地点" />
+
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/equip_price"
+        android:layout_width="1dp"
+        android:layout_height="32dp"
+        android:layout_weight="1"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/fav_delete"/>
+</LinearLayout>

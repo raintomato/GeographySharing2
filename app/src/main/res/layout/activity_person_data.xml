@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/tob_actionbar"/>
+
+    <ImageButton
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/create_user_title"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/header" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姓名:"
+            android:textSize="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/person_data_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/login_edit"
+            android:hint="小李"
+            android:layout_gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:maxLength="16"
+            android:textColorHint="#fa88"
+            android:textSize="24dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信:"
+            android:textSize="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/person_data_wechat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/login_edit"
+            android:hint="15097872181"
+            android:layout_gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:maxLength="16"
+            android:textColorHint="#fa88"
+            android:textSize="24dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" QQ :"
+            android:textSize="24dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/person_data_qq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/login_edit"
+            android:hint="845079357"
+            android:layout_gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:maxLength="16"
+            android:textColorHint="#fa88"
+            android:textSize="24dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址:"
+            android:textSize="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/person_data_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/login_edit"
+            android:hint="北京市海淀区学院路29号"
+            android:layout_gravity="center_vertical"
+            android:maxLength="16"
+            android:textColorHint="#fa88"
+            android:textSize="24dp" />
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:id="@+id/btn_person_data_modify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_button"
+        android:onClick="onClick"
+        android:text="修改信息"
+        android:textColor="#fff"
+        android:textSize="24dp" />
+
+</LinearLayout>
