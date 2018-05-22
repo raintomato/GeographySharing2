@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class EquipmentCollection extends Collection {
-    private EquipmentCollection(int id, Equipment product, User collector, String add_time) {
+    private EquipmentCollection(int id, Thing product, User collector, String add_time) {
         super(id, product, collector, add_time);
     }
 
@@ -55,6 +55,38 @@ public class EquipmentCollection extends Collection {
     }
 
     /**
+     * 通过收藏id获取收藏
+     * @param id
+     * @return
+     * @throws JSONException
+     */
+    public static EquipmentCollection findEquipmentCollection(int id) throws JSONException {
+        EquipmentCollection collection=null;
+        JSONObject json= JsonDataUtil.getJSONObject(JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&id="+id,false);
+        collection=new EquipmentCollection(
+                json.getInt("id"),
+                Equipment.findEquipment(json.getJSONObject("product")),
+                User.findUser(json.getJSONObject("collector")),
+                json.getString("add_time")
+        );
+        return collection;
+    }
+    public static EquipmentCollection findEquipmentCollection(String phone,int id) {
+        EquipmentCollection collection=null;
+        JSONObject json= JsonDataUtil.getJSONObject(String.format((JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector=%s&product_id=%d"),phone,id),false);
+        try {
+            collection=new EquipmentCollection(
+                    json.getInt("id"),
+                    Equipment.findEquipment(json.getJSONObject("product")),
+                    User.findUser(json.getJSONObject("collector")),
+                    json.getString("add_time")
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return collection;
+    }
+    /**
      * 添加设备收藏
      * @param add_time 添加时间
      * @param collector 收藏者
@@ -69,5 +101,30 @@ public class EquipmentCollection extends Collection {
                 "        \"product\": %d"+
                 "}",add_time,collector,product);
         return JsonDataUtil.postJSONObject(JsonDataUtil.RESOURCE_URL+"equipment_collection/", params);
+    }
+
+    /**
+     * 通过id删除收藏
+     * @param id 收藏id
+     * @return 是否成功
+     */
+    public static boolean cancelCollection(int id){
+        return JsonDataUtil.deleteJSONObject(JsonDataUtil.RESOURCE_URL+"equipment_collection/"+id+"/");
+    }
+
+    /**
+     * 判断某用户是否收藏某设备
+     * @param phone 用户电话
+     * @param id 设备id
+     * @return 是否收藏
+     */
+    public static boolean userIsCollect(String phone,int id){
+        List <EquipmentCollection> collections=findEquipmentCollections(phone);
+        for(EquipmentCollection collection:collections){
+            if(((Equipment)(collection.getProduct())).getId()==id){
+                return true;
+            }
+        }
+        return false;
     }
 }

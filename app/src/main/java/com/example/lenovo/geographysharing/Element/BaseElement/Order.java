@@ -1,6 +1,8 @@
 package com.example.lenovo.geographysharing.Element.BaseElement;
 
 import com.example.lenovo.geographysharing.Element.EquipmentOrder;
+import com.example.lenovo.geographysharing.Element.SoftWareOrder;
+import com.example.lenovo.geographysharing.Element.TechnologyOrder;
 import com.example.lenovo.geographysharing.Element.User;
 
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/4/20.
  */
-
+@Deprecated
 public class Order {
     private String order_id;
     private User payer;
@@ -158,6 +160,8 @@ public class Order {
     public static List<Order> findAllOrder(String phone){
         List<Order> list=null;
         list.addAll(EquipmentOrder.findEquipmentOrdersForPayee(phone));
+        list.addAll(SoftWareOrder.findSoftWareOrders(phone));
+        list.addAll(TechnologyOrder.findTechnologyOrders(phone));
         return list;
     }
 }

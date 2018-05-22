@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2018/4/20.
  */
-
+@Deprecated
 public class VerifyCode {
     private Integer id;
     private String mobile;

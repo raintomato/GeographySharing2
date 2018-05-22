@@ -59,7 +59,7 @@ public class EquipmentType extends Type {
      * @return 设备类型对象集合
      */
     public static List<EquipmentType> findSecondEquipmentTypes(String typeName) {
-        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_types/?format=json&type_name="+typeName,false);
+        JSONArray array= JsonDataUtil.getJSONArray("http://123.207.155.75/equipment_types/?format=json&type_grade=2&parent_grade="+typeName);
         return getEquipmentTypeJSONArray(array);
     }
 
@@ -68,7 +68,7 @@ public class EquipmentType extends Type {
      * @return 设备类型对象集合
      */
     public static List<EquipmentType> findFirstEquipmentTypes(){
-        JSONArray array= JsonDataUtil.getJSONArray("equipment_types/?format=json&type_grade=1");
+        JSONArray array= JsonDataUtil.getJSONArray("http://123.207.155.75/equipment_types/?format=json&type_grade=1");
         return getEquipmentTypeJSONArray(array);
     }
 

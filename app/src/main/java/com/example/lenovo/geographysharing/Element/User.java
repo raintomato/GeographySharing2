@@ -209,7 +209,6 @@ public class User implements Serializable {
         }
         return null;
     }
-
     /**
      * 注册用户
      * @param userName 昵称
@@ -235,11 +234,97 @@ public class User implements Serializable {
                 "}", userName, password, mobile);
         return JsonDataUtil.postJSONObject(JsonDataUtil.RESOURCE_URL+"users/", params);
     }
+
+    /**
+     * 通过手机号修改密码
+     * @param mobile 手机号码
+     * @param password 密码
+     * @return 是否成功
+     */
     public static boolean changePassword(String mobile,String password){
+        User user=User.findUser(mobile);
+        if (user==null)
+            return false;
         String params = String.format("{\n" +
+                "           \"nick_name\": \"%s\",\n" +
                 "            \"password\": \"%s\",\n" +
-                "            \"phone\": \"%s\"\n" +
-                "}", password, mobile);
+                "            \"phone\": \"%s\",\n" +
+                "            \"complete\": %b,\n" +
+                "            \"user_name\": \"%s\",\n" +
+                "            \"identity\": \"%s\",\n" +
+                "            \"address\": \"%s\",\n"  +
+                "            \"mobile\": \"%s\",\n" +
+                "            \"email\": \"%s\",\n" +
+                "            \"alipay\": \"%s\",\n" +
+                "            \"qq\": \"%s\",\n" +
+                "            \"wechat\": \"%s\""+
+                "}", user.nick_name,password, mobile,user.complete,user.user_name,
+                user.identity,user.address,user.mobile,
+                user.email,user.alipay,user.qq,user.wechat);
+        return JsonDataUtil.putJSONObject(JsonDataUtil.RESOURCE_URL+"users/"+mobile+"/", params);
+    }
+
+    /**
+     * 用户认证
+     * @param mobile 手机号
+     * @param user_name 用户名
+     * @param identity 身份证
+     * @return 是否成功
+     */
+    public static boolean completeUserInfo(String mobile,String user_name,String identity){
+        User user=User.findUser(mobile);
+        if (user==null)
+            return false;
+        String params = String.format("{\n" +
+                        "           \"nick_name\": \"%s\",\n" +
+                        "            \"password\": \"%s\",\n" +
+                        "            \"phone\": \"%s\",\n" +
+                        "            \"complete\": %b,\n" +
+                        "            \"user_name\": \"%s\",\n" +
+                        "            \"identity\": \"%s\",\n" +
+                        "            \"address\": \"%s\",\n"  +
+                        "            \"mobile\": \"%s\",\n" +
+                        "            \"email\": \"%s\",\n" +
+                        "            \"alipay\": \"%s\",\n" +
+                        "            \"qq\": \"%s\",\n" +
+                        "            \"wechat\": \"%s\""+
+                        "}", user.nick_name,user.password, mobile,user.complete,user_name,
+                identity,user.address,user.mobile,
+                user.email,user.alipay,user.qq,user.wechat);
+        return JsonDataUtil.putJSONObject(JsonDataUtil.RESOURCE_URL+"users/"+mobile+"/", params);
+    }
+
+    /**
+     * 修改可选信息
+     * @param mobile 手机号(用来指定用户)
+     * @param address 地址
+     * @param link_mobile 联系电话
+     * @param email 邮箱
+     * @param alipay 阿里云账号
+     * @param qq QQ号码
+     * @param wechat 微信
+     * @return 是否添加成功
+     */
+    public static boolean updateSelectUserInfo(String mobile,String address,String link_mobile,String email,String alipay,String qq,String wechat){
+        User user=User.findUser(mobile);
+        if (user==null)
+            return false;
+        String params = String.format("{\n" +
+                        "           \"nick_name\": \"%s\",\n" +
+                        "            \"password\": \"%s\",\n" +
+                        "            \"phone\": \"%s\",\n" +
+                        "            \"complete\": %b,\n" +
+                        "            \"user_name\": \"%s\",\n" +
+                        "            \"identity\": \"%s\",\n" +
+                        "            \"address\": \"%s\",\n"  +
+                        "            \"mobile\": \"%s\",\n" +
+                        "            \"email\": \"%s\",\n" +
+                        "            \"alipay\": \"%s\",\n" +
+                        "            \"qq\": \"%s\",\n" +
+                        "            \"wechat\": \"%s\""+
+                        "}", user.nick_name,user.password, mobile,user.complete,user.user_name,
+                user.identity,address,mobile,
+                email,alipay,qq,wechat);
         return JsonDataUtil.putJSONObject(JsonDataUtil.RESOURCE_URL+"users/"+mobile+"/", params);
     }
 }

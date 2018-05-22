@@ -1,6 +1,8 @@
 package com.example.lenovo.geographysharing.Element.BaseElement;
 
 import com.example.lenovo.geographysharing.Element.EquipmentIssue;
+import com.example.lenovo.geographysharing.Element.SoftwareIssue;
+import com.example.lenovo.geographysharing.Element.TechnologyIssue;
 import com.example.lenovo.geographysharing.Element.User;
 
 import java.util.List;
@@ -56,6 +58,8 @@ public abstract class Issue {
     public static List<Issue> findAllIssue(String phone){
         List <Issue> list=null;
         list.addAll(EquipmentIssue.findEquipmentIssues(phone));
+        list.addAll(SoftwareIssue.findSoftwareIssues(phone));
+        list.addAll(TechnologyIssue.findTechnologyIssues(phone));
         return list;
     }
 }

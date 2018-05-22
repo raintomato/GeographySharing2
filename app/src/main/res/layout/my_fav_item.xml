@@ -58,7 +58,7 @@
     </RelativeLayout>
 
     <ImageButton
-        android:id="@+id/equip_price"
+        android:id="@+id/img_fav_delete"
         android:layout_width="1dp"
         android:layout_height="32dp"
         android:layout_weight="1"

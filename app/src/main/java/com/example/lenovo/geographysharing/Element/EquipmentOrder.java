@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/4/21.
  */
-
+@Deprecated
 public class EquipmentOrder extends Order {
     private EquipmentOrder(String order_id, User payer, User payee, Thing product, String pay_time, String payment_method,
                            String payer_acount, String payee_acount, Double amount, Double damages, Double poundage,

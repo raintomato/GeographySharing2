@@ -179,4 +179,28 @@ public class Demand implements Serializable {
                 "}",demand_id,type,title,content,time,money,demander);
         return JsonDataUtil.postJSONObject(JsonDataUtil.RESOURCE_URL+"demand/", params);
     }
+    /**
+     * 修改需求信息
+     * @param demand_id 需求id
+     * @param type 需求类型
+     * @param title 需求标题
+     * @param content 需求内容
+     * @param time 需求时间
+     * @param money 提供资金
+     * @param demander 需求发布者
+     * @return 是否成功
+     */
+    public static boolean updateDemand(int demand_id,String type,String title,String content,String time,String money,int demander){
+        String params ;
+        params=String.format("{\n" +
+                "   \"demand_id\": %d,\n" +
+                "    \"type\": \"%s\",\n" +
+                "    \"title\": \"%s\",\n" +
+                "    \"content\": \"%s\",\n" +
+                "    \"time\": \"%s\",\n" +
+                "    \"money\": \"%s\",\n" +
+                "    \"demander\": %d"+
+                "}",demand_id,type,title,content,time,money,demander);
+        return JsonDataUtil.putJSONObject(JsonDataUtil.RESOURCE_URL+"demand/"+demand_id+"/", params);
+    }
 }

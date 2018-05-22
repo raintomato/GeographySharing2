@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
+import com.example.lenovo.geographysharing.Element.Equipment;
 import com.example.lenovo.geographysharing.Element.EquipmentCollection;
-import com.example.lenovo.geographysharing.EntityClass.Equipment;
 import com.example.lenovo.geographysharing.R;
 import com.example.lenovo.geographysharing.Utils.JsonDataUtil;
 
@@ -90,13 +90,14 @@ public class MyFavRecyclerAdapter extends RecyclerView.Adapter<MyFavRecyclerAdap
     @Override
     public void onBindViewHolder(final EViewholer holder, int position) {
         final EquipmentCollection favEquipment = myEquipList.get(position);
-        holder.equip_name.setText(favEquipment.getProduct().getName());
-        holder.equip_property.setText(favEquipment.getProduct().getParameter());
-        holder.equip_address.setText(favEquipment.getCollector().getAddress());
+        final Equipment equipment = (Equipment)favEquipment.getProduct();
+        holder.equip_name.setText(equipment.getName());
+        holder.equip_property.setText(equipment.getParameter());
+        holder.equip_address.setText(equipment.getPlace());
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                holder.equip_image.setImageBitmap(JsonDataUtil.getImage(favEquipment.getProduct().getPicture().getImageURL()));
+                holder.equip_image.setImageBitmap(JsonDataUtil.getImage(equipment.getPicture().getImageURL()));
             }
         });
         thread.start();

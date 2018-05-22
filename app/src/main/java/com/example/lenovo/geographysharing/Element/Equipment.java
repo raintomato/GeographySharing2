@@ -294,7 +294,7 @@ public class Equipment extends Thing implements Serializable {
      * 发布设备
      * @param equip_name 设备名称
      * @param produce_date 生产日期
-     * @param equip_over
+     * @param equip_over 有效期
      * @param equip_expense 设备价值
      * @param equip_start 空闲开始日期
      * @param equip_end 空闲结束日期
@@ -329,7 +329,52 @@ public class Equipment extends Thing implements Serializable {
                 "}",equip_name,produce_date,equip_over,equip_expense.toString(),equip_start,equip_end,equip_price.toString(),equip_parameter,equip_place,equip_comment,equip_type,equip_owner,equip_picture);
         return JsonDataUtil.postJSONObject(JsonDataUtil.RESOURCE_URL+"equipments/", params);
     }
-    public int getImageCount(){
-        return this.getPicture().getSub_image().size();
+    /**
+     * 修改设备信息
+     * @param equip_name 设备名称
+     * @param produce_date 生产日期
+     * @param equip_over 设备有效期
+     * @param equip_expense 设备价值
+     * @param equip_start 空闲开始日期
+     * @param equip_end 空闲结束日期
+     * @param equip_price 设备价格
+     * @param equip_parameter 设备参数
+     * @param equip_place 设备所在地点
+     * @param equip_comment 设备备注
+     * @param equip_type 设备类型
+     * @param equip_owner 设备发布者
+     * @param equip_picture 设备图片
+     * @return 设备添加结果
+     */
+    public static boolean updateEquipment(int equip_id,String equip_name, String produce_date, String equip_over,
+                                       Double equip_expense,String equip_start,String equip_end,Double equip_price,String equip_parameter,String equip_place,
+                                       String equip_comment,Integer equip_type,Integer equip_owner,Integer equip_picture){
+        String params ;
+        Equipment equipment=Equipment.findEquipment(equip_id);
+        if (equipment==null)
+            return false;
+        params=String.format("{\n" +
+                "   \"equip_name\": \"%s\",\n" +
+                "    \"produce_date\": \"%s\",\n" +
+                "    \"equip_over\": \"%s\",\n" +
+                "    \"equip_expense\": %s,\n" +
+                "    \"equip_start\": \"%s\",\n" +
+                "    \"equip_end\": \"%s\",\n" +
+                "    \"equip_price\": \"%s\",\n" +
+                "    \"equip_parameter\": \"%s\",\n" +
+                "    \"equip_place\": \"%s\",\n" +
+                "    \"equip_comment\": \"%s\",\n" +
+                "    \"equip_type\": %d,\n" +
+                "    \"equip_owner\": %d,\n" +
+                "    \"equip_picture\": %d\n" +
+                "}",equip_name,produce_date,equip_over,equip_expense.toString(),equip_start,equip_end,equip_price.toString(),equip_parameter,equip_place,equip_comment,equip_type,equip_owner,equip_picture);
+        return JsonDataUtil.putJSONObject(JsonDataUtil.RESOURCE_URL+"equipments/"+equip_id+"/", params);
     }
+
+    public int getImageCount()
+    {
+        return picture.getSub_image().size();
+
+    }
+
 }

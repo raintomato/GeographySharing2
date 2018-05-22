@@ -6,11 +6,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
 import com.example.lenovo.geographysharing.Details.AlbumDetailActivity;
+import com.example.lenovo.geographysharing.Element.Equipment;
 import com.example.lenovo.geographysharing.Element.EquipmentCollection;
-import com.example.lenovo.geographysharing.EntityClass.Equipment;
 import com.example.lenovo.geographysharing.R;
 import com.example.lenovo.geographysharing.Utils.JsonDataUtil;
 import com.example.lenovo.geographysharing.Utils.LoginUserRegisterUtil;
@@ -32,6 +33,7 @@ public class MyFavFragment extends BaseFragment {
     private static final int REFRESH_DURATION = 1500;
     private static final int LOAD_MORE = 3000;
     private List<EquipmentCollection> myEquipmentList = new ArrayList<>();
+    private ImageButton deleteFav = null;
 
     @Override
     protected int getLayoutId() {
@@ -46,19 +48,46 @@ public class MyFavFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        deleteFav = bindViewId(R.id.img_fav_delete);
+
         mPullLoadRecyclerView = bindViewId(R.id.recycler_my_fav);
         mPullLoadRecyclerView.setGridLayout();
         mPullLoadRecyclerView.setAdapter(mAdapter);
         mPullLoadRecyclerView.setOnPullLoadMoreListener(new MyFavFragment.OnPullLoadMoreListener());
         mAdapter.setOnItemClickListener(new MyFavRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, final int position) {
                 switch (position){
                     case 0:
-                        AlbumDetailActivity.launchAlbumDetailActivity(getActivity(),myEquipmentList.get(0).getProduct(),1);
+                        AlbumDetailActivity.launchAlbumDetailActivity(getActivity(),(Equipment)myEquipmentList.get(0).getProduct(),1);
                         break;
                     default:
-                        AlbumDetailActivity.launchAlbumDetailActivity(getActivity(),myEquipmentList.get(position).getProduct(),1);
+                        deleteFav.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+//                                EquipmentCollection.cancelCollection()
+                                myEquipmentList.remove(position);
+                                final Handler handler =new Handler(){
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        mAdapter = new MyFavRecyclerAdapter(myEquipmentList);
+                                        mPullLoadRecyclerView.setAdapter(mAdapter);
+                                    }
+                                };
+
+                                Thread thread = new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        EquipmentCollection.cancelCollection(myEquipmentList.get(position).getId());
+                                        Message m = handler.obtainMessage();
+                                        handler.sendMessage(m);
+                                    }
+                                });
+                                thread.start();
+                            }
+                        });
+                        AlbumDetailActivity.launchAlbumDetailActivity(getActivity(),(Equipment)myEquipmentList.get(position).getProduct(),1);
                         break;
                 }
 

@@ -26,7 +26,8 @@ import java.net.URLEncoder;
  * 此类为获取网络json数据的工具类
  */
 public class JsonDataUtil {
-    public static final String RESOURCE_URL="http://59.110.172.7:8000/";
+    public static final String RESOURCE_URL = "http://59.110.172.7:8000/";
+
     private JsonDataUtil() {
     }
 
@@ -92,7 +93,7 @@ public class JsonDataUtil {
                 String JSONString = findJsonData(urlString);
                 JSONObject jsonObject = new JSONObject(JSONString);
                 result = new JSONArray(jsonObject.getString("results"));
-            }else {
+            } else {
                 result = new JSONArray(findJsonData(urlString));
             }
             if (result.length() > 0) {
@@ -127,7 +128,7 @@ public class JsonDataUtil {
      * 多个查询
      *
      * @param urlString url地址字符串
-     * @param hasPage 是否分页
+     * @param hasPage   是否分页
      * @return 返回JSONobject对象
      */
     public static JSONArray getJSONArray(String urlString, boolean hasPage) {
@@ -161,8 +162,8 @@ public class JsonDataUtil {
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length); //生成位图
         } catch (IOException e) {
         }
-        if(bitmap!=null)
-             return CompressImageUtil.compressForInternetImage(bitmap);
+        if (bitmap != null)
+            return CompressImageUtil.compressForInternetImage(bitmap);
         else
             return null;
     }
@@ -230,7 +231,7 @@ public class JsonDataUtil {
             if (urlConn.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
                 return true;
             }
-            Log.i(String.valueOf(urlConn.getResponseCode()+"/"+urlConn.getResponseMessage()), "postJSONObject: ");
+            Log.i(String.valueOf(urlConn.getResponseCode() + "/" + urlConn.getResponseMessage()), "postJSONObject: ");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -266,7 +267,7 @@ public class JsonDataUtil {
             if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 return true;
             }
-            Log.i(String.valueOf(urlConn.getResponseCode()+"/"+urlConn.getResponseMessage()), "putJSONObject: ");
+            Log.i(String.valueOf(urlConn.getResponseCode() + "/" + urlConn.getResponseMessage()), "putJSONObject: ");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -275,6 +276,95 @@ public class JsonDataUtil {
         return false;
     }
 
+    /**
+     * DELETE数据
+     *
+     * @param urlString URL地址字符串
+     * @return 上传是否成功
+     */
+    public static boolean deleteJSONObject(String urlString) {
+        String target = urlString;
+        URL url;
+        try {
+            url = new URL(target);
+            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.setRequestMethod("DELETE");
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setUseCaches(false);
+            urlConn.setInstanceFollowRedirects(true);
+            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_NO_CONTENT) {
+                return true;
+            }
+            Log.i(String.valueOf(urlConn.getResponseCode() + "/" + urlConn.getResponseMessage()), "deleteJSONObject: ");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 提交订单数据
+     *
+     * @param urlString URL地址字符串
+     * @param param     JSON字符串参数
+     * @return 上传是否成功
+     */
+    public static String postOrderJSONObject(String urlString, String param) {
+        String target = urlString;
+        URL url;
+        try {
+            url = new URL(target);
+            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.setRequestMethod("POST");
+            urlConn.setDoInput(true);
+            urlConn.setDoOutput(true);
+            urlConn.setUseCaches(false);
+            urlConn.setUseCaches(false);
+            urlConn.setInstanceFollowRedirects(true);
+            urlConn.setRequestProperty("Content-Type", "application/json");
+            OutputStreamWriter out = new OutputStreamWriter(urlConn.getOutputStream());
+            out.write(param);
+            out.flush();
+            out.close();
+            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                String jsonString=dealResponseResult(urlConn.getInputStream());
+                JSONObject json = new JSONObject(jsonString);
+                return json.getString("sign");
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "OJBK";
+    }
+
+    /**
+     * 处理返回字符串
+     * @param inputStream
+     * @return
+     */
+    private static String dealResponseResult(InputStream inputStream) {
+        String resultData = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] data = new byte[1024];
+        int len = 0;
+        try {
+            while ((len = inputStream.read(data)) != -1) {
+                byteArrayOutputStream.write(data, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        resultData = new String(byteArrayOutputStream.toByteArray());
+        return resultData;
+    }
 }
 
 

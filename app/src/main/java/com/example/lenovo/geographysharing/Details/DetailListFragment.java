@@ -100,7 +100,6 @@ public class DetailListFragment extends BaseFragment {
                         } else {
 
                             //直接传对象
-
                             AlbumDetailActivity.launchAlbumDetailActivity(getActivity(),myEquipmentList.get(position),0);
                         }
                         break;

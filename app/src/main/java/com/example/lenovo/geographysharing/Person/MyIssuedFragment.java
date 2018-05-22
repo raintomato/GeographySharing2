@@ -5,10 +5,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
 import com.example.lenovo.geographysharing.Element.Equipment;
 import com.example.lenovo.geographysharing.Element.EquipmentIssue;
+import com.example.lenovo.geographysharing.Element.Image;
 import com.example.lenovo.geographysharing.Issue.IssueDetailActivity;
 import com.example.lenovo.geographysharing.R;
 import com.example.lenovo.geographysharing.Utils.LoginUserRegisterUtil;
@@ -24,6 +26,9 @@ import java.util.List;
  */
 
 public class MyIssuedFragment extends BaseFragment {
+
+    private ImageButton imgIssueDelete = null;
+
 
     private PullLoadRecyclerView mPullLoadRecyclerView = null;
     private MyIssueRecyclerAdapter mAdapter = null;
@@ -46,13 +51,23 @@ public class MyIssuedFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        imgIssueDelete = bindViewId(R.id.img_issue_delete);
+
+
         mPullLoadRecyclerView = bindViewId(R.id.recycler_my_issue);
         mPullLoadRecyclerView.setGridLayout();
         mPullLoadRecyclerView.setAdapter(mAdapter);
         mPullLoadRecyclerView.setOnPullLoadMoreListener(new MyIssuedFragment.OnPullLoadMoreListener());
         mAdapter.setOnItemClickListener(new MyIssueRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, final int position) {
+                imgIssueDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        myEquipmentList.remove(position);
+                        //设置字段为不显示，api还没做。
+                    }
+                });
                 IssueDetailActivity.launchIssueDetailActivity(getActivity(),((Equipment) myEquipmentList.get(position).getProduct()));
             }
         });
