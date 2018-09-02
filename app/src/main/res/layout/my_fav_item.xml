@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/equip_property"
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/equip_name"
             android:layout_gravity="center_vertical"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/equip_address"
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/equip_property"
             android:layout_gravity="center_vertical"
@@ -57,14 +57,4 @@
 
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/img_fav_delete"
-        android:layout_width="1dp"
-        android:layout_height="32dp"
-        android:layout_weight="1"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:gravity="center_vertical"
-        android:layout_gravity="center_vertical"
-        android:background="@drawable/fav_delete"/>
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.lenovo.geographysharing.Element;
 
+import android.util.Log;
+
 import com.example.lenovo.geographysharing.Element.BaseElement.Collection;
 import com.example.lenovo.geographysharing.Element.BaseElement.Thing;
 import com.example.lenovo.geographysharing.Utils.JsonDataUtil;
@@ -50,8 +52,19 @@ public class EquipmentCollection extends Collection {
      * @return 用户收藏的所有设备
      */
     public static List<EquipmentCollection> findEquipmentCollections(String phone){
-        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector="+phone,false);
+        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector="+phone,true);
         return getEquipmentCollectionJSONArray(array);
+    }
+
+    public static List<EquipmentCollection> findEquipmentCollections(String phone,int page){
+//        JSONArray array= JsonDataUtil.getJSONArray(String.format(JsonDataUtil.RESOURCE_URL+"equipment_issue/?issuer=%s&page=%d",phone,page));
+        try {
+            JSONArray array= JsonDataUtil.getJSONArray(String.format(JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector=%s&page=%d",phone,page));
+            return getEquipmentCollectionJSONArray(array);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -71,9 +84,20 @@ public class EquipmentCollection extends Collection {
         );
         return collection;
     }
-    public static EquipmentCollection findEquipmentCollection(String phone,int id) {
+
+    /**
+     *
+     * @param phone 用户
+     * @param id 设备
+     * @return
+     */
+    public static EquipmentCollection findEquipmentCollection(String phone, int id) {
         EquipmentCollection collection=null;
-        JSONObject json= JsonDataUtil.getJSONObject(String.format((JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector=%s&product_id=%d"),phone,id),false);
+        JSONObject json= JsonDataUtil.getJSONObject(String.format((JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector=%s&product=%d"),phone,id),true);
+        Log.i("", ""+String.format((JsonDataUtil.RESOURCE_URL+"equipment_collection/?format=json&collector=%s&product=%d"),phone,id));
+        if(json==null){
+            return null;
+        }
         try {
             collection=new EquipmentCollection(
                     json.getInt("id"),
@@ -93,9 +117,9 @@ public class EquipmentCollection extends Collection {
      * @param product 产品
      * @return 是否添加成功
      */
-    public static boolean addEquipmentCollection(String add_time,int collector,int product) {
+    public static boolean addEquipmentCollection(String add_time, int collector, int product) {
         String params ;
-        params=String.format("{\n" +
+        params= String.format("{\n" +
                 "       \"add_time\": \"%s\",\n" +
                 "        \"collector\": %d,\n" +
                 "        \"product\": %d"+
@@ -118,11 +142,14 @@ public class EquipmentCollection extends Collection {
      * @param id 设备id
      * @return 是否收藏
      */
-    public static boolean userIsCollect(String phone,int id){
-        List <EquipmentCollection> collections=findEquipmentCollections(phone);
-        for(EquipmentCollection collection:collections){
-            if(((Equipment)(collection.getProduct())).getId()==id){
-                return true;
+    public static boolean userIsCollect(String phone, int id){
+        List<EquipmentCollection> collections;
+        if ((collections=findEquipmentCollections(phone))!=null)
+        {
+            for(EquipmentCollection collection:collections){
+                if(((Equipment)(collection.getProduct())).getId()==id){
+                    return true;
+                }
             }
         }
         return false;

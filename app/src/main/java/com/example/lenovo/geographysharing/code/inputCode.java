@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.lenovo.geographysharing.R;
 import com.mob.MobSDK;
+
+import org.json.JSONObject;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -28,12 +31,10 @@ public class inputCode extends Activity implements View.OnClickListener{
     Button nextbtn;    //下一步
     Button time;    //倒计时按钮
     String num;
-    int i=60;           //短信验证提示时间为60秒
-
+    private int i=60;           //短信验证提示时间为60秒
+    private boolean flag=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //启动短信验证sdk
-        MobSDK.init(this,"252b1b295dd62","f9f0d0f01ba2dae86076a8ec32a8a7ae");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code);
@@ -52,19 +53,11 @@ public class inputCode extends Activity implements View.OnClickListener{
         //在相应的文本框中显示用户手机号(加密)
         display_num.setText(num.replace(num.substring(3,7),"****"));
 
-        final EventHandler eventHandler = new EventHandler(){
-            @Override
-            public void afterEvent(int event, int result, Object data) {
-                Message msg = new Message();
-                msg.arg1 = event;
-                msg.arg2 = result;
-                msg.obj = data;
-                handler.sendMessage(msg);
-            }
-        };
+        //启动短信验证sdk
+        MobSDK.init(this,"252b1b295dd62","f9f0d0f01ba2dae86076a8ec32a8a7ae");
         SMSSDK.registerEventHandler(eventHandler); // 注册回调监听接口
-
         sendCode();
+
 
     }
 
@@ -86,32 +79,45 @@ public class inputCode extends Activity implements View.OnClickListener{
             int event = msg.arg1;
             int result = msg.arg2;
             Object data = msg.obj;
+
             if (result == SMSSDK.RESULT_COMPLETE) {
+                // 如果操作成功
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     Toast.makeText(getApplicationContext(), "提交验证码成功",
                             Toast.LENGTH_SHORT).show();
                     // 验证成功后输入新密码
                     Intent intent = new Intent(inputCode.this, newPwd.class);
+                    intent.putExtra("phone_num", num);
                     startActivity(intent);
                     finish();// 成功跳转之后销毁当前页面
-
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     Toast.makeText(getApplicationContext(), "验证码已经发送",
                             Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                if (flag) {
+                    Toast.makeText(getApplicationContext(), "验证码获取失败，请重新获取", Toast.LENGTH_SHORT).show();
+
                 } else {
                     ((Throwable) data).printStackTrace();
+                    Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
                 }
-            }else if(result== SMSSDK.RESULT_ERROR){//验证码错误
-                Toast.makeText(getApplicationContext(), "验证码有误",
-                        Toast.LENGTH_SHORT).show();
-   //可能存在bug
             }
         }
-
     }
 
 };
 
+    EventHandler eventHandler = new EventHandler() {
+        @Override
+        public void afterEvent(int event, int result, Object data) {
+            Message msg = new Message();
+            msg.arg1 = event;
+            msg.arg2 = result;
+            msg.obj = data;
+            handler.sendMessage(msg);
+        }
+    };
 
 
     @Override
@@ -127,6 +133,7 @@ public class inputCode extends Activity implements View.OnClickListener{
                 }
                 //判断验证码是否正确(可以添加一个进度条)
                 SMSSDK.submitVerificationCode("86",num,code.getText().toString());
+                flag=false;
                 break;
             default:
                 break;
@@ -157,7 +164,6 @@ public class inputCode extends Activity implements View.OnClickListener{
             }
         }).start();
     }
-
 
 
     //在完成短信验证之后，需要销毁回调监听接口

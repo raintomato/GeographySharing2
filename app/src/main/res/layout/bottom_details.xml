@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="立刻购买"
+            android:text="立刻咨询"
             android:textColor="@android:color/white" />
 
     </RelativeLayout>

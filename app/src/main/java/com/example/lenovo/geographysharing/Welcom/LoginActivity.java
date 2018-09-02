@@ -1,12 +1,17 @@
 package com.example.lenovo.geographysharing.Welcom;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,7 +22,10 @@ import android.widget.Toast;
 
 import com.example.lenovo.geographysharing.Element.User;
 import com.example.lenovo.geographysharing.Home.HomeActivity;
+import com.example.lenovo.geographysharing.Person.MyCertificateActivity;
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.Utils.LoginUserRegisterUtil;
+import com.example.lenovo.geographysharing.Utils.ToastUitls;
 import com.example.lenovo.geographysharing.code.requireCode;
 
 /**
@@ -30,15 +38,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private static CheckBox auto_login;
     private CheckBox rem_pw;
     private String userNameValue, passwordValue;
-    private static SharedPreferences sp;
+    public static SharedPreferences sp;
+    boolean isLoginSuccess;
     Context context;
     User user;
+    ProgressDialog proDialog =null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Log.e("LoginActivity",LoginUserRegisterUtil.TOKEN);
+
         initializeComponent();
         context = this;
     }
@@ -65,19 +77,21 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         if (sp.getBoolean("ISCHECK", false)) {
             //设置默认是记录密码状态
+            Log.i("susern123456", "initializeComponent: "+sp.getString("USER_NAME", ""));
             rem_pw.setChecked(true);
             userName.setText(sp.getString("USER_NAME", ""));
             password.setText(sp.getString("PASSWORD", ""));
+
             //判断自动登陆多选框状态
             if (sp.getBoolean("AUTO_ISCHECK", false)) {
                 //设置默认是自动登录状态
                 auto_login.setChecked(true);
                 //跳转界面
-
             }
             if (sp.getBoolean("ISCHECK", true)) {
                 userName.setText(sp.getString("USER_NAME", ""));
                 password.setText(sp.getString("PASSWORD", ""));
+
             }
             if (sp.getBoolean("AUTO_ISCHECK", true)) {
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -99,12 +113,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         forget.setOnClickListener(this);
         create.setOnClickListener(this);
 
-
         Intent intent = getIntent();
-        userName.setText(intent.getStringExtra("userName"));
-        password.setText(intent.getStringExtra("password"));
-
-
+        Log.i("intent+sb", "initializeComponent: "+intent);
+        if(intent.getStringExtra("userName")!=null){
+            userName.setText(intent.getStringExtra("userName"));
+            Log.i("sbs", "initializeComponent: "+intent.getStringExtra("userName"));
+            password.setText(intent.getStringExtra("password"));
+        }
     }
 
     private void setOnclickListenerAutoLogin() {
@@ -138,25 +153,34 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+
         if (v.getId() == R.id.login_button && checkForm()) {
+            Log.i("LoginActvity1+",LoginUserRegisterUtil.TOKEN);
+            proDialog  = android.app.ProgressDialog.show(LoginActivity.this,null, "登录中");
+            proDialog.setCancelable(true);
             final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
+                    proDialog.dismiss();
                     if (user == null) {
-                        Toast.makeText(context, "用户不存在+++++", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "手机号不存在+++++或无网络", Toast.LENGTH_SHORT).show();
                     } else if (userName.getText().toString().equals("")) {
                         Toast.makeText(context, "请输入手机号码", Toast.LENGTH_SHORT).show();
                     } else if (password.getText().toString().equals("")) {
                         Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
-                    } else if (user.getPhone().equals(userName.getText().toString()) && user.getPassword().equals(password.getText().toString())) {
+                    } else if (isLoginSuccess) {
                         if (rem_pw.isChecked()) {
                             //记住用户名、密码、
                             userNameValue = user.getPhone();
-                            passwordValue = user.getPassword();
+                            passwordValue = password.getText().toString();
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("USER_NAME", userNameValue);
                             editor.putString("PASSWORD", passwordValue);
+                            editor.putBoolean("IS_LOGIN", LoginUserRegisterUtil.IS_LOGIN);
+                            editor.putLong("loginDate", LoginUserRegisterUtil.loginDate);
+                            editor.putString("USER_TOKEN", LoginUserRegisterUtil.TOKEN);
+                            Log.i("LoginActvity1+",LoginUserRegisterUtil.TOKEN);
                             editor.commit();
                         }
                         Toast.makeText(context, "登陆成功", Toast.LENGTH_SHORT).show();
@@ -172,7 +196,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    user = User.findUser(userName.getText().toString());
+                    try{
+                        user = User.findUser(userName.getText().toString());
+                        isLoginSuccess = User.login(userName.getText().toString(),password.getText().toString());
+                    }catch (Exception e){
+                        new AlertDialog.Builder(LoginActivity.this).setTitle("提示").setMessage("没有网络，请开启网络，即将退出程序").setPositiveButton("立即退出", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //MyCertificateActivity.launchMyCertificateActivity(LoginActivity.this);
+                            }
+                        }).setNegativeButton("取消", null).show();
+                    }
                     Message m = handler.obtainMessage();
                     handler.sendMessage(m);
                 }
@@ -220,6 +254,28 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         //防止多次实例调用
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
+    }
+
+    public static void launchLoginActivity(Context context,int isHome) {
+        sp.edit().putBoolean("AUTO_ISCHECK", false).commit();
+        sp.edit().putBoolean("ISCHECK", false).commit();
+        auto_login.setChecked(false);
+        Intent intent = new Intent(context, LoginActivity.class);
+        //防止多次实例调用
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent home = new Intent(Intent.ACTION_MAIN);
+            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            home.addCategory(Intent.CATEGORY_HOME);
+            startActivity(home);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

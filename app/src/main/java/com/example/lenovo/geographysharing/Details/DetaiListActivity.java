@@ -3,6 +3,7 @@ package com.example.lenovo.geographysharing.Details;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseActivity;
@@ -20,7 +21,7 @@ public class DetaiListActivity extends BaseActivity {
     private BaseFragment mCurrentFragment;
     private static final String CHANNEL_ID = "channid";
     private int mChannId;
-
+    String titleName = "地质类";
 
     @Override
     protected int getLayoutId() {
@@ -34,7 +35,7 @@ public class DetaiListActivity extends BaseActivity {
             mChannId = intent.getIntExtra(CHANNEL_ID, 0);
         }
         Channel channel = new Channel(mChannId, this);
-        String titleName = channel.getChannelName();
+        titleName = channel.getChannelName();
 
         setSupportActionBar();//表示当前页面支持ActionBar
         setSupportArrowActionBar(true);
@@ -63,7 +64,7 @@ public class DetaiListActivity extends BaseActivity {
         传参
          */
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fl_details_content, DetailListFragment.newInstance(mChannId))
+                .replace(R.id.fl_details_content, DetailListFragment.newInstance(titleName))
                 .commit();
         /*
         不传参
@@ -72,8 +73,7 @@ public class DetaiListActivity extends BaseActivity {
 //        mFragmentManager = getSupportFragmentManager();
 //        //初始化传入的homefragment
 //
-//        mCurrentFragment = FragmentManagerWrapper.getInstance().createFragment(DetailListFragment.class,true);
-//
+//        mCurrentFragment = FragmentManagerWrapper.getInstance().createFragment(DetailListFragment.class,true);//
 //        //fragmentmanager 事务的回滚
 //        mFragmentManager.beginTransaction().add(R.id.fl_details_content,mCurrentFragment).commit();
     }
@@ -87,4 +87,6 @@ public class DetaiListActivity extends BaseActivity {
         intent.putExtra(CHANNEL_ID, channelId);
         context.startActivity(intent);
     }
+
+
 }

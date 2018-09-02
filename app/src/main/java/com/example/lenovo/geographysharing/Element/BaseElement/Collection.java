@@ -1,9 +1,6 @@
 package com.example.lenovo.geographysharing.Element.BaseElement;
 
-import com.example.lenovo.geographysharing.Element.EquipmentCollection;
-import com.example.lenovo.geographysharing.Element.SoftwareCollection;
-import com.example.lenovo.geographysharing.Element.TechnologyCollection;
-import com.example.lenovo.geographysharing.Element.User;
+import com.example.lenovo.geographysharing.Element.*;
 
 import java.util.List;
 

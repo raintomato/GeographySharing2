@@ -84,10 +84,10 @@ public class VerifyCode {
      * @param code 验证码
      * @return 是否发送成功
      */
-    public static boolean sendVerifyCode(String mobile,String code){
+    public static boolean sendVerifyCode(String mobile, String code){
         if(mobile.equals(""))
             return false;
-        String params=String.format("{\n" +
+        String params= String.format("{\n" +
                 "    \"code\": \"%s\",\n" +
                 "    \"mobile\": \"%s\",\n" +
                 "    \"add_time\": \"%s\"\n" +

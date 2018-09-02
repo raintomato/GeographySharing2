@@ -1,12 +1,15 @@
 package com.example.lenovo.geographysharing.widget;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.lenovo.geographysharing.Element.Equipment;
 import com.example.lenovo.geographysharing.Element.EquipmentIssue;
 import com.example.lenovo.geographysharing.R;
@@ -22,13 +25,16 @@ import java.util.List;
 public class MyIssueRecyclerAdapter extends RecyclerView.Adapter<MyIssueRecyclerAdapter.EViewholer> implements View.OnClickListener{
     //声明接口变量
     private OnItemClickListener mOnItemClickListener = null;
+    //声明接口变量
+    private ButtonInterface buttonInterface;
 
+    private Context context;
     //接口
     public static interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
     //创建存储设备的数组。
-    private List<EquipmentIssue> myEquipList = new ArrayList<>();
+    public List<EquipmentIssue> myEquipList = new ArrayList<>();
     //控件的绑定
     static class EViewholer extends RecyclerView.ViewHolder {
         //声明控件
@@ -36,6 +42,7 @@ public class MyIssueRecyclerAdapter extends RecyclerView.Adapter<MyIssueRecycler
         TextView equip_property;
         TextView equip_address;
         ImageView equip_image;
+        ImageButton img_btn_delete;
         //声明item
         View equipView;
 
@@ -47,14 +54,30 @@ public class MyIssueRecyclerAdapter extends RecyclerView.Adapter<MyIssueRecycler
             equip_property = (TextView) itemView.findViewById(R.id.equip_property);
             equip_address = (TextView) itemView.findViewById(R.id.equip_address);
             equip_image = (ImageView) itemView.findViewById(R.id.equip_image);
+//            img_btn_delete = (ImageButton)itemView.findViewById(R.id.img_issue_delete);
         }
     }
 
     //adapter构造函数
-    public MyIssueRecyclerAdapter(List<EquipmentIssue> equipments) {
-        myEquipList = equipments;
-    }
+    public MyIssueRecyclerAdapter(Context context) {
+//        myEquipList = equipments;
+        this.context=context;
 
+    }
+    /**
+     * 7-8
+     * 重复图片无法加载则进行回收
+     * @param holder
+     */
+
+    @Override
+    public void onViewRecycled(EViewholer holder) {
+        if (holder != null)
+        {
+            Glide.clear(holder.equip_image);
+        }
+        super.onViewRecycled(holder);
+    }
     @Override
     public EViewholer onCreateViewHolder(ViewGroup parent, int viewType) {
         //加载布局
@@ -84,18 +107,39 @@ public class MyIssueRecyclerAdapter extends RecyclerView.Adapter<MyIssueRecycler
             mOnItemClickListener.onItemClick(view, (int) view.getTag());
         }
     }
+    public void buttonSetOnclick(ButtonInterface buttonInterface){
+        this.buttonInterface=buttonInterface;
+    }
+    public interface ButtonInterface
+    {
+        void onClick(View view, int position);
+    }
 
     @Override
-    public void onBindViewHolder(final EViewholer holder, int position) {
+    public void onBindViewHolder(final EViewholer holder, final int position) {
         final  EquipmentIssue equipmentIssue = myEquipList.get(position);
         final Equipment equipment = (Equipment)equipmentIssue.getProduct();
         holder.equip_name.setText(equipment.getName());
         holder.equip_property.setText(equipment.getParameter());
         holder.equip_address.setText(equipment.getPlace());
+//        holder.img_btn_delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (buttonInterface!=null)
+//                {
+//                    buttonInterface.onClick(view,position);
+//                }
+//            }
+//        });
+
+        /**
+         * 7-8
+         */
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 holder.equip_image.setImageBitmap(JsonDataUtil.getImage(equipment.getPicture().getImageURL()));
+
             }
         });
         thread.start();
@@ -104,6 +148,17 @@ public class MyIssueRecyclerAdapter extends RecyclerView.Adapter<MyIssueRecycler
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        /**
+         * 7-8 添加holder控制图片重复加载
+         */
+        String istrurl = equipment.getPicture().getImageURL();
+        if (null == holder || null == istrurl || istrurl.equals("")) {
+            return;
+        }
+        Glide.with(context)
+                .load(istrurl)
+                .placeholder(R.drawable.loading)
+                .into(holder.equip_image);
 
         //将position保存在itemView的Tag中，以便点击时进行获取
         holder.itemView.setTag(position);

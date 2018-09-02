@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <include
-        layout="@layout/tob_actionbar"/>
-
+    <include layout="@layout/tob_actionbar"
+        android:id="@+id/include_tab"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
         android:scrollbars="none">
 
@@ -17,25 +16,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:gravity="left"
-                    android:text="标题                                          "
-                    android:textSize="@dimen/dimen_40sp" />
+                    android:layout_marginLeft="19dp"
+                    android:textSize="@dimen/dimen_40dp"
+                    android:text="【"/>
                 <TextView
-                    android:id="@+id/product_price"
+                    android:id="@+id/titl_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/dimen_40dp"
+                    android:text=""/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/dimen_40dp"
+                    android:text="】"/>
+                <TextView
+                    android:id="@+id/tv_demand_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+
+                    android:textColor="@color/transparentBlack"
+                    android:gravity="center"
+                    android:text="标题"
+                    android:textSize="@dimen/dimen_40dp" />
+                <TextView
+                    android:id="@+id/tv_demand_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_400dp"
                     android:text="2000元/天"
                     android:gravity="right"
-                    android:textSize="20sp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -47,13 +67,14 @@
                 android:padding="@dimen/dimen_8dp">
 
                 <TextView
-                    android:id="@+id/tx_2"
+                    android:id="@+id/tv_demand_parameter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/tx_1"
                     android:layout_alignStart="@+id/tx_1"
                     android:layout_below="@+id/tx_1"
                     android:layout_marginTop="9dp"
+                    android:layout_marginLeft="15dp"
                     android:text="    ★扫描速率： 850扫\n
    ★脉冲重复频率：400KHz\n
    ★时窗：80纳秒\n
@@ -62,8 +83,8 @@
    ★分辨率： 5皮秒\n
    ★采样间隔： 2.4cm\n
    ★A/D转换 ： 16bit"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="15dp"
+                     />
 
 
             </RelativeLayout>
@@ -75,24 +96,7 @@
                 android:orientation="horizontal"
                 android:background="#fff">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="地点："
-                    android:textSize="@dimen/dimen_40sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="中国地质大学"
-                    android:textSize="@dimen/dimen_40sp"
-                    android:id="@+id/textView_Request" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="\n\n\n\n
 
-                    "
-                    android:textSize="@dimen/dimen_40sp"/>                     />
 
             </LinearLayout>
 
@@ -104,59 +108,131 @@
                 android:orientation="horizontal"
                 android:background="#fff">
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="联系方式"
-                    android:textSize="@dimen/dimen_40sp" />
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/transparentBlack"
+                    android:text="联系方式"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="  ★电话："
+                    android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tx_user_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="010-57233523"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="  ★传真："
+                    android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tx_user_qq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="010-84933563"
+                    android:textSize="15dp" />
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★电话：1888888888"
-                android:textSize="19sp" />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="  ★网址："
+                    android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tx_user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="www.jieaosi.com"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="  ★邮箱："
+                    android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tx_user_weChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:layout_marginTop="2dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="5dp"
+                    android:text="jieaosi@163.com"
+                    android:textSize="15dp" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★Q  Q  :  95624152"
-                android:textSize="19sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★微信：dida9999"
-                android:textSize="19sp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★邮箱：dida@cugb.com"
-                android:textSize="19sp" />
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="————我的底线————"
+                    android:textSize="@dimen/dimen_40dp" />
+            </LinearLayout>
+
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -168,4 +244,8 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <include
+        layout="@layout/tob_actionbar"/>
+
 </LinearLayout>

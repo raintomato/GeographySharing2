@@ -4,37 +4,12 @@
     android:layout_height="match_parent">
     <include layout="@layout/tob_actionbar"
         android:id="@+id/include_tab"/>
-    <FrameLayout
-        android:id="@+id/details_image_frame"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_420dp"
-        android:layout_below="@+id/include_tab"
-        android:layout_marginLeft="@dimen/dimen_15dp"
-        android:layout_marginRight="@dimen/dimen_15dp"
-        android:layout_marginTop="@dimen/dimen_15dp">
-        <com.hejunlin.superindicatorlibray.LoopViewPager
-            android:id="@+id/details_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_48dp"
-            android:layout_gravity="bottom">
-
-            <com.hejunlin.superindicatorlibray.CircleIndicator
-                android:id="@+id/details_indicator"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal" />
-        </FrameLayout>
-    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        android:layout_below="@+id/details_image_frame"
+        android:layout_below="@+id/include_tab"
         android:layout_alignParentStart="true">
 
         <LinearLayout
@@ -50,22 +25,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:id="@+id/image_order_pic"
+
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="产品信息"
-                    android:textSize="@dimen/dimen_40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
+
             </LinearLayout>
 
             <RelativeLayout
@@ -82,8 +55,8 @@
                     android:layout_alignStart="@+id/tx_1"
                     android:layout_below="@+id/tx_1"
                     android:layout_marginTop="9dp"
-                    android:text="   ★产品价格:"
-                    android:textSize="18sp"
+                    android:text="   ★订单价格:"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
 
@@ -94,8 +67,8 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/tx_1"
-                    android:text="钻井机"
-                    android:textSize="18sp" />
+                    android:text="加载中"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/product_value"
@@ -106,7 +79,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/tx_2"
                     android:text="¥70000"
-                    android:textSize="18sp" />
+                    android:textSize="15dp" />
 
 
                 <TextView
@@ -117,7 +90,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
                     android:text="2000元/天"
-                    android:textSize="20sp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -126,10 +99,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/product_name"
                     android:layout_alignBottom="@+id/product_name"
-                    android:layout_alignStart="@+id/tx_3"
+
                     android:layout_marginLeft="5dp"
                     android:text="   ★名称:"
-                    android:textSize="18sp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -140,7 +113,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="   ★租赁时间:"
                     android:layout_marginTop="9dp"
-                    android:textSize="18sp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -148,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2017年5月-2019年3月"
-                    android:textSize="18sp"
+                    android:textSize="15dp"
                     android:layout_marginTop="9dp"
                     android:layout_below="@+id/tx_2"
                     android:layout_toEndOf="@+id/tx_5" />
@@ -161,23 +134,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="订单信息"
-                    android:textSize="@dimen/dimen_40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
             </LinearLayout>
 
 <LinearLayout
@@ -192,20 +157,20 @@
         <TextView
             android:text="★订单状态:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
+
 
              />
         <TextView
 
             android:id="@+id/status"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="待收货"
-            android:textSize="19sp"
-            android:layout_weight="1"/>
+            android:textSize="15dp"
+          />
     </LinearLayout>
 
     <LinearLayout
@@ -216,18 +181,16 @@
         <TextView
             android:text="★订单号:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
             />
         <TextView
             android:id="@+id/order_num"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="20180422"
-            android:textSize="19sp"
-            android:layout_weight="1"
+            android:textSize="15dp"
           />
     </LinearLayout>
     <LinearLayout
@@ -238,18 +201,16 @@
         <TextView
             android:text="★支付账户:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
             />
         <TextView
             android:id="@+id/pay_account"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="20180422"
-            android:textSize="19sp"
-            android:layout_weight="1"
+            android:textSize="15dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -258,20 +219,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="★支付时间:"
+            android:text="★下单时间:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
             />
         <TextView
             android:id="@+id/pay_date"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="20180422"
-            android:textSize="19sp"
-            android:layout_weight="1"
+            android:textSize="15dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -282,18 +241,16 @@
         <TextView
             android:text="★支付方式:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
             />
         <TextView
             android:id="@+id/pay_way"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="20180422"
-            android:textSize="19sp"
-            android:layout_weight="1"
+            android:text="支付宝"
+            android:textSize="15dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -304,18 +261,16 @@
         <TextView
             android:text="★收货地址:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
             />
         <TextView
             android:id="@+id/address"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="20180422"
-            android:textSize="19sp"
-            android:layout_weight="1"
+            android:text="未填写"
+            android:textSize="15dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -326,83 +281,21 @@
         <TextView
             android:text="★留言:"
             android:layout_marginLeft="20dp"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="19sp"
-            android:layout_weight="2"
+            android:textSize="15dp"
             />
         <TextView
             android:id="@+id/remark"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="20180422"
-            android:textSize="19sp"
-            android:layout_weight="1"
+            android:text="无"
+            android:textSize="15dp"
             />
     </LinearLayout>
 </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="联系方式"
-                    android:textSize="@dimen/dimen_40sp" />
-
-                <ImageView
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@drawable/head_image_0" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★电话：1888888888"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★Q  Q  :  95624152"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★微信：dida9999"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#f5f5f5"
-                android:paddingLeft="5dp"
-                android:text="  ★邮箱：dida@cugb.com"
-                android:textSize="19sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -417,9 +310,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="————我的底线————"
-                    android:textSize="@dimen/dimen_40sp" />
+                    android:textSize="20dp" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48dp"
+            android:layout_gravity="bottom">
+
+
+    <com.hejunlin.superindicatorlibray.CircleIndicator
+        android:id="@+id/details_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+
 </RelativeLayout>

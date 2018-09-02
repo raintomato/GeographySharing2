@@ -14,31 +14,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="20dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="2"
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/equip_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:text="名称"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/equip_property"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/equip_name"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
+            android:textSize="12dp"
             android:layout_weight="1"
+            android:paddingTop="2dp"
             android:singleLine="true"
             android:text="性能参数" />
 
@@ -48,9 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/equip_property"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="1dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="2dp"
+            android:textSize="12dp"
+            android:paddingTop="2dp"
             android:singleLine="true"
             android:text="地点" />
         <TextView
@@ -59,9 +54,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:textSize="12dp"
             android:layout_marginRight="@dimen/dimen_20dp"
-            android:layout_marginBottom="@dimen/dimen_15dp"
+            android:layout_marginBottom="@dimen/dimen_17dp"
             android:text="价格" />
+
+        <TextView
+            android:id="@+id/equip_name"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="8dp"
+            android:text="名称"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/transparentBlack"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/equip_property" />
 
     </RelativeLayout>
 

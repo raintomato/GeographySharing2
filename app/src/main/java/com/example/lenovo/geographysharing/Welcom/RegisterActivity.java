@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +15,11 @@ import android.widget.Toast;
 import com.example.lenovo.geographysharing.Element.User;
 import com.example.lenovo.geographysharing.Element.VerifyCode;
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.code.inputCode;
+import com.example.lenovo.geographysharing.code.newPwd;
 import com.mob.MobSDK;
+
+import org.json.JSONObject;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -27,15 +32,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText RegisterName;
     private EditText Password1;
     private EditText Password2;
-    private EditText Phone;
-    private EditText code;
-    private Button getCode;
-    private Button register;
+    private EditText Phone;    //手机号
+    private EditText code;     //验证码
+    private Button getCode;     //获取验证码
+    private Button register;        //注册
     VerifyCode verifyCode;
     User user;
     Context context;
     boolean success=false,sendOk=false;
-    int i=60;           //短信验证提示时间为60秒
+    private int i=60;           //短信验证提示时间为60秒
+    private boolean flag=true;
 
 
     @Override
@@ -43,8 +49,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         context=this;
         setContentView(R.layout.activity_register);
-        //启动短信验证sdk
-        MobSDK.init(this,"252b1b295dd62","f9f0d0f01ba2dae86076a8ec32a8a7ae");
 
         //控件绑定
         RegisterName = (EditText) findViewById(R.id.register_name);
@@ -57,23 +61,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         register.setOnClickListener(this);
         getCode.setOnClickListener(this);
 
-        final EventHandler eventHandler = new EventHandler(){
-            @Override
-            public void afterEvent(int event, int result, Object data) {
-                Message msg = new Message();
-                msg.arg1 = event;
-                msg.arg2 = result;
-                msg.obj = data;
-                handler.sendMessage(msg);
-            }
-        };
+        //启动短信验证sdk
+        MobSDK.init(this,"252b1b295dd62","f9f0d0f01ba2dae86076a8ec32a8a7ae");
         SMSSDK.registerEventHandler(eventHandler); // 注册回调监听接口
     }
 
     Handler handler=new Handler(){
         public void handleMessage(Message msg) {
             if (msg.what == -1) {
-                getCode.setText(i+"秒");  //为啥非要加个文字
+                getCode.setText(i+"秒");
             } else if (msg.what == -2) {
                 getCode.setText("重新发送");
                 getCode.setClickable(true); // 设置可点击
@@ -82,28 +78,54 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 int event = msg.arg1;
                 int result = msg.arg2;
                 Object data = msg.obj;
-                if (result == SMSSDK.RESULT_COMPLETE) {
-                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                        //Toast.makeText(getApplicationContext(), "注册成功",
-                          //      Toast.LENGTH_SHORT).show();
 
+                if (result == SMSSDK.RESULT_COMPLETE) {
+                    // 如果操作成功
+                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                        Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                success= User.register(RegisterName.getText().toString(),Password1.getText().toString(),Phone.getText().toString());
+                            }
+                        }).start();
+
+                        //界面跳转
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        intent.putExtra("userName",Phone.getText().toString());
+                        intent.putExtra("password",Password1.getText().toString());
+                        startActivity(intent);
 
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                        //Toast.makeText(getApplicationContext(), "验证码已经发送",
-                          //      Toast.LENGTH_SHORT).show();
+                        // 获取验证码成功
+                        Toast.makeText(getApplicationContext(), "验证码已发送", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (flag) {
+                        Toast.makeText(getApplicationContext(), "验证码获取失败，请重新获取", Toast.LENGTH_SHORT).show();
+
                     } else {
                         ((Throwable) data).printStackTrace();
+                        Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
                     }
-                    success=true;
-                }else if(result== SMSSDK.RESULT_ERROR){//验证码错误
-                    //Toast.makeText(getApplicationContext(), "验证码有误",
-                      //      Toast.LENGTH_SHORT).show();
-                    //可能存在bug
+
                 }
             }
 
         }
 
+    };
+
+    EventHandler eventHandler = new EventHandler(){
+        @Override
+        public void afterEvent(int event, int result, Object data) {
+            Message msg = new Message();
+            msg.arg1 = event;
+            msg.arg2 = result;
+            msg.obj = data;
+            handler.sendMessage(msg);
+        }
     };
     @Override
     public void onClick(View v) {
@@ -111,8 +133,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             //Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
            // Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             //startActivity(intent);
-            //判断验证码是否正确(可以添加一个进度条)
-            SMSSDK.submitVerificationCode("86",Phone.getText().toString(),code.getText().toString());
             final Handler handler=new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
@@ -130,18 +150,25 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         user=null;
                     }else if(code.getText().equals("")){
                         Toast.makeText(context, "请填写验证码", Toast.LENGTH_SHORT).show();
-                    }else if(success) {
+                    } else{
+                        //判断验证码是否正确(可以添加一个进度条)
+                        SMSSDK.submitVerificationCode("86",Phone.getText().toString(),code.getText().toString());
+                        flag=false;
+                        /*
                         //界面跳转
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        Intentintent = new Intent(RegisterActivity.this, LoginActivity.class);
                         intent.putExtra("userName",Phone.getText().toString());
                         intent.putExtra("password",Password1.getText().toString());
                         startActivity(intent);
                         Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
+                        */
                     }
+                 //   else {
+                 //       Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
+                 //   }
                 }
             };
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -159,13 +186,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         //Toast.makeText(context, "用户已存在", Toast.LENGTH_SHORT).show();
                     }else if(code.getText().equals("")){
                         //Toast.makeText(context, "请填写验证码", Toast.LENGTH_SHORT).show();
-                    }else if(success) {
-                        success= User.register(RegisterName.getText().toString(),Password1.getText().toString(),Phone.getText().toString());
                     }
+                    //else if(success) {
+                      //  success= User.register(RegisterName.getText().toString(),Password1.getText().toString(),Phone.getText().toString());
+                    //}
                     Message m=handler.obtainMessage();
                     handler.sendMessage(m);
                 }
             }).start();
+
         }
         if(v.getId() == R.id.get_code){
             //获取验证码
@@ -186,7 +215,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         user=null;
                     }else if(sendOk){
                         sendCode();
-                        Toast.makeText(context, "验证码发送成功", Toast.LENGTH_SHORT).show();
+                        // SMSSDK.getVerificationCode("86",Phone.getText().toString());
+                        //Toast.makeText(context, "验证码发送成功", Toast.LENGTH_SHORT).show();
                         sendOk=false;
                     }
                 }
@@ -208,7 +238,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         //Toast.makeText(context, "用户已存在", Toast.LENGTH_SHORT).show();
                     }else{
                         sendOk=true;
-                        verifyCode= VerifyCode.findVerifyCode(Phone.getText().toString());
+                        //verifyCode= VerifyCode.findVerifyCode(Phone.getText().toString());
                     }
                     Message m=handler.obtainMessage();
                     handler.sendMessage(m);

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/tob_actionbar"
+        android:id="@+id/issue_include"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/issue_include"
+        android:layout_above="@+id/issue_bottom_include_tech"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/dimen_38dp" />
+
+
+            <View
+
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="#aa000000" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/dimen_38dp" />
+
+            <EditText
+                android:id="@+id/issue_tech_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_390dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="[人员简介]"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="人员类别:"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+                <EditText
+                    android:id="@+id/issue_tech_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入人员类别"
+                    android:textSize="15dp"
+                    android:textColorHint="#fa88" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="雇用价格:"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                     />
+
+                <EditText
+                    android:id="@+id/issue_tech_expense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入租用价格"
+                    android:inputType="number"
+                    android:textSize="15dp"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="备        注:"
+                    android:textColor="@color/black"
+                    android:singleLine="false"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/issue_tech_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入备注"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:textSize="15dp"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_issue"
+        android:id="@+id/issue_bottom_include_tech"/>
+</RelativeLayout>

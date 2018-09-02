@@ -1,6 +1,7 @@
 package com.example.lenovo.geographysharing.widget;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -167,35 +168,51 @@ public class PullLoadRecyclerView extends LinearLayout {
     }
 
     //加载更多数据（包含设置动画）
+//    private void loadMoreData() {
+//        if (mOnPullLoadMoreListener != null) {
+//            mOnPullLoadMoreListener.loadMore();
+//            mFootView.animate().translationY(10).setInterpolator(new AccelerateDecelerateInterpolator())
+//                    .setDuration(300).setListener(new Animator.AnimatorListener() {
+//                @Override
+//                public void onAnimationStart(Animator animator) {
+//                    mFootView.setVisibility(View.VISIBLE);
+//                    mOnPullLoadMoreListener.loadMore();
+//                    mAnimationDrawable.start();
+//
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animator animator) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationCancel(Animator animator) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animator animator) {
+//
+//                }
+//            }).start();
+//            invalidate();
+//        }
+//    }
+
     private void loadMoreData() {
         if (mOnPullLoadMoreListener != null) {
-            mOnPullLoadMoreListener.loadMore();
-            mFootView.animate().translationY(10).setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(300).setListener(new Animator.AnimatorListener() {
+            mFootView.animate().translationY(0).setInterpolator(new AccelerateDecelerateInterpolator())
+                    .setDuration(300).setListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onAnimationStart(Animator animator) {
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
                     mFootView.setVisibility(View.VISIBLE);
-                    mOnPullLoadMoreListener.loadMore();
                     mAnimationDrawable.start();
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
                 }
             }).start();
             invalidate();
+            mOnPullLoadMoreListener.loadMore();
         }
     }
 

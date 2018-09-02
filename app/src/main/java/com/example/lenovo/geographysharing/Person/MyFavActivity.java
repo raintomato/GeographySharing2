@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseActivity;
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
@@ -11,6 +12,7 @@ import com.example.lenovo.geographysharing.Details.DetaiListActivity;
 import com.example.lenovo.geographysharing.Details.DetailListFragment;
 import com.example.lenovo.geographysharing.Element.Equipment;
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.delete.adapter.MyAdapter;
 import com.example.lenovo.geographysharing.others.FragmentManagerWrapper;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
  * Created by lenovo on 2018/4/21.
  */
 
-public class MyFavActivity extends BaseActivity {
+public class MyFavActivity extends BaseActivity implements MyAdapter.IonSlidingViewClickListener{
 
     private FragmentManager mFragmentManager;
     private BaseFragment mCurrentFragment;
@@ -72,6 +74,16 @@ public class MyFavActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onDeleteBtnCilck(View view, int position) {
 
     }
 }

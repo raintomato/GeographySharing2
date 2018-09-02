@@ -12,9 +12,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -22,6 +20,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- 权限声明，支付宝支付 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,8 +33,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".Issue.Application"
         android:allowBackup="true"
-        android:icon="@mipmap/login_head_chuizi1"
+        android:icon="@drawable/tubiao"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -55,7 +58,6 @@
         <activity android:name=".Welcom.LoginActivity" />
         <activity android:name=".Welcom.RegisterActivity" />
         <activity android:name=".Details.AlbumDetailActivity" />
-        <activity android:name=".Issue.IssueDetailActivity" />
         <activity android:name=".Issue.IssueDetailRequestActivity" />
         <activity android:name=".Person.PersonHomeActivity" />
         <activity android:name=".Person.PersonDataActivity" />
@@ -66,10 +68,19 @@
         <activity android:name=".code.inputCode" />
         <activity android:name=".code.newPwd" />
         <activity android:name=".code.requireCode" />
+        <activity android:name=".Pay.OrderSubmitActivity"/>
         <activity android:name=".Details.AlbumDetailRequestActivity" />
-        <activity android:name=".Pay.OrderSubmitActivity" />
         <activity android:name=".Person.MyOrderDetailActivity"/>
-
+        <activity android:name=".identify.IdentifyActivity"/>
+        <activity android:name=".Person.MyCertificateActivity"/>
+        <activity android:name=".Issue.PhotoPickerActivity"/>
+        <activity android:name=".Issue.PreviewPhotoActivity"/>
+        <activity android:name=".Issue.IssueDetailActivity"/>
+        <activity android:name=".Details.AlbumDetailSoftActivity"/>
+        <activity android:name=".Details.AlbumDetailPeopleActivity"/>
+        <activity android:name=".Issue.IssuDetailsoftActivity"/>
+        <activity android:name=".Issue.IssuDetailTechActivity"/>
+        <activity android:name=".BaseClass.shareActivity"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.lenovo.geographysharing.fileprovider"

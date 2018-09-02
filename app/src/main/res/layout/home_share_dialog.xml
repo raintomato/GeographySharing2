@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:paddingBottom="5dp">
+    <LinearLayout
+        android:layout_width="65dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:weightSum="1">
+        <ImageView
+            android:id="@+id/id_share_liu"
+            android:layout_width="41.5dp"
+            android:layout_height="41.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/liu"
+            android:layout_weight="0.03" />
+        <TextView
+            android:id="@+id/id_share_liu_wenzi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="7dp"
+            android:textSize="10dp"
+            android:text="租赁流程"/>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/id_share_share"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/share_share"
+        />
+
+</LinearLayout>

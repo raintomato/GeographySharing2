@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".home.HomeActivity">
+    tools:context=".home.HomeActivity"
+    >
 
     <group android:checkableBehavior="single">
 
@@ -10,13 +11,13 @@
             android:icon="@drawable/iconfont_home"
             android:title="首页" />
         <item
+            android:id="@+id/navigation_item_demand"
+            android:icon="@drawable/iconfont_certificate"
+            android:title="需求" />
+        <item
             android:id="@+id/navigation_item_issue"
             android:icon="@drawable/iconfont_issue"
             android:title="发布" />
-        <item
-            android:id="@+id/navigation_item_person"
-            android:icon="@drawable/iconfont_certificate"
-            android:title="快速认证" />
         <item
             android:id="@+id/navigation_item_blog"
             android:icon="@drawable/iconfont_blog"
@@ -24,11 +25,11 @@
         <item
             android:id="@+id/navigation_item_about"
             android:icon="@drawable/iconfont_about"
-            android:title="关于GeographySharing" />
+            android:title="关于我们" />
         <item
             android:id="@+id/navigation_item_quit"
             android:icon="@drawable/iconfont_quit"
-            android:title="退出登录"/>
+            android:title="退出"/>
     </group>
 
 </menu>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.Utils.LoginUserRegisterUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +29,21 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
 
     private List<View> mViewList;
     private ViewPager mViewPager;
-    private ImageView[] mDotList;
-    private int mLastPosition;
+    //private ImageView[] mDotList;
+    //private int mLastPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
+        Log.i("ssssss",LoginUserRegisterUtil.TOKEN);
         initView();
         initViewPager();
         initDots();
     }
 
     private void initView () {
+        Log.i("GuideActivity", LoginUserRegisterUtil.TOKEN);
         LayoutInflater inflater = LayoutInflater.from(this);
         mViewList = new ArrayList<>();
         mViewList.add(inflater.inflate(R.layout.guide_one_layout, null));
@@ -55,14 +59,14 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
     }
 
     private void initDots() {
-        LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.ll_dots_layout);
-        mDotList = new ImageView[mViewList.size()];
-        for (int i = 0; i < mViewList.size(); i++) {
-            mDotList[i] = (ImageView) dotsLayout.getChildAt(i);
-            mDotList[i].setEnabled(false);
-        }
-        mLastPosition = 0;
-        mDotList[0].setEnabled(true);
+//        LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.ll_dots_layout);
+//        mDotList = new ImageView[mViewList.size()];
+//        for (int i = 0; i < mViewList.size(); i++) {
+//            mDotList[i] = (ImageView) dotsLayout.getChildAt(i);
+//            mDotList[i].setEnabled(false);
+//        }
+//        mLastPosition = 0;
+//        mDotList[0].setEnabled(true);
     }
 
     @Override
@@ -81,9 +85,9 @@ public class GuideActivity extends Activity implements ViewPager.OnPageChangeLis
     }
 
     private void setCurrentDotPosition(int position) {
-        mDotList[position].setEnabled(true);
-        mDotList[mLastPosition].setEnabled(false);
-        mLastPosition = position;
+//        mDotList[position].setEnabled(true);
+//        mDotList[mLastPosition].setEnabled(false);
+//        mLastPosition = position;
     }
 
     class MyPagerAdapter extends PagerAdapter {

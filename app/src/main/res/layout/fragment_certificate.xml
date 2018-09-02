@@ -35,32 +35,7 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/moreinformation__sex"
-            android:layout_width="@dimen/dimen_216dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="性别*:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textColorHint="#bdbdbd"
-            android:layout_toRightOf="@+id/moreinformation__sex"
-            android:background="@drawable/bg_edit"
-            android:hint="     请输入性别"
-            android:paddingLeft="5dp"
-            android:textSize="18sp" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -86,189 +61,20 @@
             android:layout_toRightOf="@+id/tv_id_card_numbers"
             android:background="@drawable/bg_edit"
             android:hint="     请输入身份证号"
-            android:inputType="number"
+
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:textSize="18sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/moreinformation__bankname"
-            android:layout_width="@dimen/dimen_216dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="开户行*:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
-        <EditText
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/moreinformation__bankname"
-            android:background="@drawable/bg_edit"
-            android:textColorHint="#bdbdbd"
-            android:hint="     请输入开户行"
-            android:paddingLeft="5dp"
-            android:textSize="18sp" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/moreinformation_credit_numbers"
-            android:layout_width="@dimen/dimen_216dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="银行卡号*:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/credit_card_numbers"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textColorHint="#bdbdbd"
-            android:layout_toRightOf="@+id/moreinformation_credit_numbers"
-            android:background="@drawable/bg_edit"
-            android:hint="     请输入银行卡号"
-            android:inputType="number"
-            android:paddingLeft="5dp"
-            android:textSize="18sp" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/moreinformation_tv_naddress"
-            android:layout_width="@dimen/dimen_216dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="地址*:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/moreinformation_address"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-
-            android:textColorHint="#bdbdbd"
-            android:layout_toRightOf="@+id/moreinformation_tv_naddress"
-            android:background="@drawable/bg_edit"
-            android:hint="     请输入地址"
-            android:inputType="textPhonetic"
-            android:paddingLeft="5dp"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_10dp"
-        android:background="#6554" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/tv_qq_numbers"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="QQ（选填）:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/qq_numbers"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/tv_qq_numbers"
-            android:background="@drawable/bg_edit"
-            android:hint="     请输入QQ号"
-            android:textColorHint="#bdbdbd"
-            android:paddingLeft="5dp"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/tv_wechat_numbers"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="微信（选填）:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/wechat_numbers"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/tv_wechat_numbers"
-            android:background="@drawable/bg_edit"
-            android:hint="     请输入微信号"
-            android:paddingLeft="5dp"
-            android:textColorHint="#bdbdbd"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/tv_education"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="学历（选填）:"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <EditText
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/tv_education"
-            android:background="@drawable/bg_edit"
-            android:hint="     请输入学历"
-            android:paddingLeft="5dp"
-            android:textColorHint="#bdbdbd"
-            android:textSize="18sp" />
-    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

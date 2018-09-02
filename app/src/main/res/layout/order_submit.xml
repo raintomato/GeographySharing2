@@ -67,6 +67,7 @@
                     android:text="收货地址："
                     />
                 <TextView
+                    android:id="@+id/order_text_consignee_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="北京市北京市海淀区学院路街道中国地质大学（北京）"
@@ -271,6 +272,186 @@
             />
 
     </LinearLayout>
+
+    <!--分隔线-->
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:text=""-->
+        <!--android:background="#C7C7C7"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="发票信息"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="（不需发票可不填）"
+            android:textSize="14dp"
+            android:layout_gravity="center_vertical"
+            />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="单位名称："
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:id="@+id/et_order_org_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:hint="个人发票可不填"
+            android:maxLines="1"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="纳税人识别号："
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:id="@+id/et_order_invoice_number"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:hint="个人发票可不填"
+            android:maxLines="1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="收票人姓名："
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:id="@+id/et_order_invoice_person_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:maxLines="1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="收票人手机："
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:id="@+id/et_order_invoice_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:maxLines="1"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="收票人地址："
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:id="@+id/et_order_invoice_address"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="15dp"
+            android:maxLines="1"
+            />
+
+    </LinearLayout>
+    <!--分隔线-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:text=""
+        android:background="#C7C7C7"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+
+
 
     <!--占位-->
     <TextView

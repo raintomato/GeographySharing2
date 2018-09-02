@@ -20,7 +20,7 @@ public class Channel implements Serializable {
     public static final int  RUANJIAN= 7;//人员类
     public static final int QITA = 8;//其他类
     public static final int MEIYOU = 9;//没有
-    public static final int MAX_COUNT = 9;//频道数
+    public static final int MAX_COUNT = 6;//频道数
 
 
     private int channelId;
@@ -48,15 +48,6 @@ public class Channel implements Serializable {
                 break;
             case RENYUAN:
                 channelName = mContext.getResources().getString(R.string.channel_variety);
-                break;
-            case RUANJIAN:
-                channelName = mContext.getResources().getString(R.string.channel_live);
-                break;
-            case QITA:
-                channelName = mContext.getResources().getString(R.string.channel_favorite);
-                break;
-            case MEIYOU:
-                channelName = mContext.getResources().getString(R.string.channel_history);
                 break;
         }
     }

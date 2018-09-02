@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/tob_actionbar"
+        android:id="@+id/issue_include"/>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/issue_include"
+        android:layout_above="@+id/issue_bottom_include_soft"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/dimen_38dp" />
+
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="#aa000000" />
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="@dimen/dimen_38dp" />
+            <EditText
+                android:id="@+id/issue_soft_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_390dp"
+                android:background="@null"
+                android:gravity="top"
+                android:textSize="20dp"
+                android:hint="[描述一下软件的应用领域]"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="8" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="名        称:"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:id="@+id/textView4" />
+
+                <EditText
+                    android:id="@+id/issue_soft_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入名称"
+                    android:textSize="15dp"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="价        格:"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    />
+
+                <EditText
+                    android:id="@+id/issue_soft_expense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入租用价格"
+                    android:textSize="15dp"
+                    android:inputType="number"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="运行平台:"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:inputType="text"
+                    android:id="@+id/textView2" />
+
+                <EditText
+                    android:id="@+id/issue_soft_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入运行平台"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="备        注:"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/issue_soft_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edit"
+                    android:hint="请输入备注"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:textSize="15dp"
+                    android:textColorHint="#fa88" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/bottom_issue"
+        android:id="@+id/issue_bottom_include_soft"/>
+</RelativeLayout>

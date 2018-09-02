@@ -1,5 +1,7 @@
 package com.example.lenovo.geographysharing.Element;
 
+import android.util.Log;
+
 import com.example.lenovo.geographysharing.Utils.JsonDataUtil;
 
 import org.json.JSONArray;
@@ -15,32 +17,42 @@ import java.util.List;
  */
 
 public class Demand implements Serializable {
-    private Integer demand_id;
+    private Integer id;
     private User demander;
     private String type;
     private String title;
     private String content;
     private String time;
     private String money;
+    private Boolean is_delete;
 
-    private Demand(Integer demand_id, User demander, String type,
-                   String title, String content, String time, String money) {
-        this.demand_id = demand_id;
+    public Boolean getIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(Boolean is_delete) {
+        this.is_delete = is_delete;
+    }
+
+    private Demand(Integer id, User demander, String type,
+                   String title, String content, String time, String money, Boolean is_delete) {
+        this.id = id;
         this.demander = demander;
         this.type = type;
         this.title = title;
         this.content = content;
         this.time = time;
         this.money = money;
+        this.is_delete = is_delete;
 
     }
 
-    public Integer getDemand_id() {
-        return demand_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setDemand_id(Integer demand_id) {
-        this.demand_id = demand_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public User getDemander() {
@@ -98,6 +110,9 @@ public class Demand implements Serializable {
      */
     private static List<Demand> getDemandFromJSONArray(JSONArray array){
         List<Demand> list=new ArrayList<Demand>();
+        if(array==null){
+            return null;
+        }
         if(array.length()<=0) {
             return null;
         }else {
@@ -106,13 +121,14 @@ public class Demand implements Serializable {
                     JSONObject json =array.getJSONObject(i);
                     //id, type, owner, name, date, over, expense, start, end, price, picture, parameter, place, comment
                     list.add(new Demand(
-                            json.getInt("demand_id"),
+                            json.getInt("id"),
                             User.findUser(json.getJSONObject("demander")),
                             json.getString("type"),
                             json.getString("title"),
                             json.getString("content"),
                             json.getString("time"),
-                            json.getString("money")
+                            json.getString("money"),
+                            json.getBoolean("is_delete")
                     ));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -122,16 +138,30 @@ public class Demand implements Serializable {
         }
     }
 
+    public static Demand findDemand(int id) throws JSONException {
+        JSONObject json=JsonDataUtil.getJSONObject(JsonDataUtil.RESOURCE_URL+"demand/?id="+id);
+        Demand demand=new Demand(
+                json.getInt("id"),
+                User.findUser(json.getJSONObject("demander")),
+                json.getString("type"),
+                json.getString("title"),
+                json.getString("content"),
+                json.getString("time"),
+                json.getString("money"),
+                json.getBoolean("is_delete")
+        );
+        return demand;
+    }
     /**
      * 按页查找需求
      * @param page 页码
      * @return 需求对象集合
      */
-    @Deprecated
     public static List<Demand> findDemands(int page){
-        JSONArray array = JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"demand/?page=" + page);
+        JSONArray array = JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"demand/?ordering=-time&is_delete=true&page=" + page);
         return getDemandFromJSONArray(array);
     }
+
 
     /**
      * 关键字查找
@@ -140,8 +170,8 @@ public class Demand implements Serializable {
      * @return 需求对象集合
      */
     @Deprecated
-    public static List<Demand> findDemands(String keyWord, int page){
-        JSONArray array = JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"demand/?page=" + page);
+    public static List<Demand> findDemand(String keyWord, int page){
+        JSONArray array = JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"demand/?page=" + page, false);
         return getDemandFromJSONArray(array);
     }
 
@@ -152,6 +182,11 @@ public class Demand implements Serializable {
      */
     public static List<Demand> findDemands(String phone){
         JSONArray array = JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"demand/?demander=" + phone,false);
+        return getDemandFromJSONArray(array);
+    }
+
+    public static List<Demand> findDemands(String phone,int page){
+        JSONArray array = JsonDataUtil.getJSONArray(String.format(JsonDataUtil.RESOURCE_URL+"demand/?demander=%s&page=%d",phone,page));
         return getDemandFromJSONArray(array);
     }
 
@@ -166,17 +201,20 @@ public class Demand implements Serializable {
      * @param demander 需求发布者
      * @return 发布是否成功
      */
-    public static boolean addDemand(int demand_id,String type,String title,String content,String time,String money,int demander){
+    public static boolean addDemand(int demand_id, String type, String title, String content, String time, String money, int demander,String place){
         String params ;
-        params=String.format("{\n" +
-                "   \"demand_id\": %d,\n" +
+        params= String.format("{\n" +
+                "   \"id\": %d,\n" +
                 "    \"type\": \"%s\",\n" +
                 "    \"title\": \"%s\",\n" +
                 "    \"content\": \"%s\",\n" +
                 "    \"time\": \"%s\",\n" +
                 "    \"money\": \"%s\",\n" +
-                "    \"demander\": %d"+
-                "}",demand_id,type,title,content,time,money,demander);
+                "    \"demander\": %d,\n"+
+                "    \"is_delete\": false,\n"+
+                "    \"place\":\"%s\""+
+                "}",demand_id,type,title,content,time,money,demander,place);
+        Log.i("demand",params);
         return JsonDataUtil.postJSONObject(JsonDataUtil.RESOURCE_URL+"demand/", params);
     }
     /**
@@ -190,17 +228,25 @@ public class Demand implements Serializable {
      * @param demander 需求发布者
      * @return 是否成功
      */
-    public static boolean updateDemand(int demand_id,String type,String title,String content,String time,String money,int demander){
+    public static boolean updateDemand(int demand_id, String type, String title, String content, String time, String money, int demander){
         String params ;
-        params=String.format("{\n" +
-                "   \"demand_id\": %d,\n" +
+        params= String.format("{\n" +
+                "   \"id\": %d,\n" +
                 "    \"type\": \"%s\",\n" +
                 "    \"title\": \"%s\",\n" +
                 "    \"content\": \"%s\",\n" +
                 "    \"time\": \"%s\",\n" +
                 "    \"money\": \"%s\",\n" +
-                "    \"demander\": %d"+
+                "    \"demander\": %d,\n"+
+                "    \"is_delete\": false,\n"+
                 "}",demand_id,type,title,content,time,money,demander);
         return JsonDataUtil.putJSONObject(JsonDataUtil.RESOURCE_URL+"demand/"+demand_id+"/", params);
+    }
+    /**
+     * 删除需求信息
+     * @return 是否成功
+     */
+    public static boolean deleteDemand(int demand_id){
+        return JsonDataUtil.deleteJSONObject(JsonDataUtil.RESOURCE_URL+"demand/"+demand_id+"/");
     }
 }

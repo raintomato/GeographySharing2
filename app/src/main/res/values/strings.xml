@@ -1,24 +1,30 @@
 <resources>
-    <string name="app_name">GeographySharing</string>
+    <string name="app_name">地质共享</string>
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="website">网址：<a href="www.jieaosi.com">www.jieaosi.com</a></string>
+    <string name="dowmload_file">仪器设备租赁合同（<a href="http://59.110.172.7/Download/%E4%BB%AA%E5%99%A8%E8%AE%BE%E5%A4%87%E7%A7%9F%E8%B5%81%E5%90%88%E5%90%8C.pdf">点我下载</a>）</string>
 
     <string name="home_title">首页</string>
     <string name="blog_title">我的博客</string>
     <string name="about_title">关于SuperVideo</string>
 
-    <string name="app_description">No matter how time pass，I will always be you side\n</string>
+    <string name="app_description1">\n
+名称：北京捷奥斯地质勘查有限公司\n
+电话：010-57233523
+</string>
+
 
     <string name="site_letv">乐视视频</string>
     <string name="site_sohu">搜狐视频</string>
 
     <string name="channel_series">地质类</string>
     <string name="channel_movie">物探类</string>
-    <string name="channel_comic">化探类</string>
-    <string name="channel_documentary">钻探类</string>
-    <string name="channel_music">地质实验类</string>
-    <string name="channel_variety">技术</string>
+    <string name="channel_comic">测量类</string>
+    <string name="channel_documentary">检测类</string>
+    <string name="channel_music">软件</string>
+    <string name="channel_variety">人员</string>
     <string name="channel_live">软件</string>
     <string name="channel_favorite">其他</string>
     <string name="channel_history">需求</string>
@@ -178,5 +184,14 @@
     <string-array name="geology_test_spinner">
 
     </string-array>
+
+
+    <string name="photos_num">%1$d张</string>
+    <string name="msg_no_camera">没找到摄像头</string>
+    <string name="msg_maxi_capacity">已达到照片选择上限</string>
+    <string name="commit">确定</string>
+    <string name="commit_num">确定(%1$d/%2$d)</string>
+    <string name="only_choose_num">超出可选图片张数</string>
+    <string name="finish">完成(%1$d/9)</string>
 
 </resources>

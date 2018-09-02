@@ -10,15 +10,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Administrator on 2018/4/21.
- */
-
 public class EquipmentType extends Type {
+
     private EquipmentType(int id, String type_name, Integer type_grade,
-                          boolean is_tab, String add_time, Integer parent_grade) {
-        super(id, type_name, type_grade, is_tab, add_time, parent_grade);
+                          boolean is_tab, String add_time, Integer parent_grade,List<String> sub_type) {
+        super(id, type_name, type_grade, is_tab, add_time, parent_grade,sub_type);
     }
+
 
     /**
      * 获取设备类型的JSONArray对象
@@ -37,13 +35,19 @@ public class EquipmentType extends Type {
                     if(!json.get("parent_grade").toString().equals("null")) {
                         parent=Integer.parseInt(json.get("parent_grade").toString());
                     }
+                    JSONArray arrays=json.getJSONArray("sub_equip");
+                    List<String> sub_types=new ArrayList<>();
+                    for (int k=0;k<arrays.length();k++){
+                        sub_types.add(arrays.getJSONObject(k).getString("type_name"));
+                    }
                     list.add(new EquipmentType(
                             json.getInt("id"),
                             json.getString("type_name"),
                             json.getInt("type_grade"),
                             json.getBoolean("is_tab"),
                             json.getString("add_time"),
-                            parent
+                            parent,
+                            sub_types
                     ));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -58,9 +62,31 @@ public class EquipmentType extends Type {
      * @param typeName 父类名称
      * @return 设备类型对象集合
      */
-    public static List<EquipmentType> findSecondEquipmentTypes(String typeName) {
-        JSONArray array= JsonDataUtil.getJSONArray("http://123.207.155.75/equipment_types/?format=json&type_grade=2&parent_grade="+typeName);
+    private static List<EquipmentType> getSecondEquipmentTypes(String typeName) {
+        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_types/?format=json&type_name="+typeName,false);
+
         return getEquipmentTypeJSONArray(array);
+    }
+
+    public static String findBigTypeNameById(int id) {
+        JSONObject json = JsonDataUtil.getJSONObject(JsonDataUtil.RESOURCE_URL + "equipment_types/?id=" + id);
+        if (json != null) {
+            try {
+                return json.getString("type_name");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+            return null;
+    }
+
+    /**
+     * 获取二级分类
+     * @param typeName 父类名称
+     * @return 设备类型对象集合
+     */
+    public static EquipmentType findSecondEquipmentTypes(String typeName) {
+        return getSecondEquipmentTypes(typeName).get(0);
     }
 
     /**
@@ -68,7 +94,8 @@ public class EquipmentType extends Type {
      * @return 设备类型对象集合
      */
     public static List<EquipmentType> findFirstEquipmentTypes(){
-        JSONArray array= JsonDataUtil.getJSONArray("http://123.207.155.75/equipment_types/?format=json&type_grade=1");
+
+        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_types/?format=json&type_grade=1");
         return getEquipmentTypeJSONArray(array);
     }
 
@@ -84,13 +111,18 @@ public class EquipmentType extends Type {
             if(!json.get("parent_grade").toString().equals("null")) {
                 parent=Integer.parseInt(json.get("parent_grade").toString());
             }
+            JSONArray arrays=json.getJSONArray("sub_equip");
+            List<String> sub_types=new ArrayList<>();
+            for (int k=0;k<arrays.length();k++){
+                sub_types.add(arrays.getJSONObject(k).getString("type_name"));
+            }
             type=new EquipmentType(
                     json.getInt("id"),
                     json.getString("type_name"),
                     json.getInt("type_grade"),
                     json.getBoolean("is_tab"),
                     json.getString("add_time"),
-                    parent
+                    parent,sub_types
             );
         } catch (JSONException e) {
             e.printStackTrace();

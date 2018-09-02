@@ -16,12 +16,14 @@ public abstract class Issue {
     private User issuer;
     private Thing product;
     private String add_time;
+    private Boolean is_delete;
 
-    protected Issue(int id, User issuer, Thing product, String add_time) {
+    protected Issue(int id, User issuer, Thing product, String add_time, Boolean is_delete) {
         this.id = id;
         this.issuer = issuer;
         this.product = product;
         this.add_time = add_time;
+        this.is_delete=is_delete;
     }
 
     public int getId() {
@@ -55,8 +57,17 @@ public abstract class Issue {
     public void setAdd_time(String add_time) {
         this.add_time = add_time;
     }
+
+    public Boolean getIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(Boolean is_delete) {
+        this.is_delete = is_delete;
+    }
+
     public static List<Issue> findAllIssue(String phone){
-        List <Issue> list=null;
+        List<Issue> list=null;
         list.addAll(EquipmentIssue.findEquipmentIssues(phone));
         list.addAll(SoftwareIssue.findSoftwareIssues(phone));
         list.addAll(TechnologyIssue.findTechnologyIssues(phone));

@@ -4,17 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseActivity;
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.delete.adapter.MyDemandAdapter;
 import com.example.lenovo.geographysharing.others.FragmentManagerWrapper;
 
 /**
  * Created by abc on 2018/4/21.
  */
 
-public class MyRequestActivity extends BaseActivity {
+public class MyRequestActivity extends BaseActivity implements MyDemandAdapter.IonSlidingViewClickListener {
 
     private FragmentManager mFragmentManager;
     private BaseFragment mCurrentFragment;
@@ -71,6 +73,16 @@ public class MyRequestActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onDeleteBtnCilck(View view, int position) {
 
     }
 }

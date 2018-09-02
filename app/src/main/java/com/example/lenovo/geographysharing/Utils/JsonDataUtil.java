@@ -10,22 +10,20 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by 甄焰鑫 on 2018/4/19.
  * 此类为获取网络json数据的工具类
  */
 public class JsonDataUtil {
+
     public static final String RESOURCE_URL = "http://59.110.172.7:8000/";
 
     private JsonDataUtil() {
@@ -39,6 +37,9 @@ public class JsonDataUtil {
         try {
             url = new URL(urlString);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            urlConn.setDoInput(true);
+            urlConn.setRequestProperty("Authorization",LoginUserRegisterUtil.TOKEN);
+
             InputStreamReader in = new InputStreamReader(urlConn.getInputStream());
             BufferedReader buffer = new BufferedReader(in);
             String inputLine = null;
@@ -48,6 +49,7 @@ public class JsonDataUtil {
             }
             in.close();
             urlConn.disconnect();
+            Log.i("JSON", "findJsonData: "+result);
             return result;
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -93,11 +95,14 @@ public class JsonDataUtil {
                 String JSONString = findJsonData(urlString);
                 JSONObject jsonObject = new JSONObject(JSONString);
                 result = new JSONArray(jsonObject.getString("results"));
+                Log.i("has", "getJSONObject:True ");
             } else {
                 result = new JSONArray(findJsonData(urlString));
+                Log.i("has", "getJSONObject:False ");
             }
             if (result.length() > 0) {
                 JSONObject data = result.getJSONObject(0);
+                Log.i("JSON", data.toString());
                 return data;
             }
         } catch (JSONException e) {
@@ -106,6 +111,41 @@ public class JsonDataUtil {
         return null;
     }
 
+    public static JSONObject getJSONObjectForSoftwore(String urlString, boolean hasPage) {
+        try {
+            JSONArray result = null;
+            if (hasPage) {
+                String JSONString = findJsonData(urlString);
+                JSONObject jsonObject = new JSONObject(JSONString);
+                result = new JSONArray(jsonObject.getString("results"));
+                Log.i("has", "getJSONObject:True ");
+            } else {
+                return new JSONObject(findJsonData(urlString));
+            }
+            if (result.length() > 0) {
+                JSONObject data = result.getJSONObject(0);
+                Log.i("JSON", data.toString());
+                return data;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**7-5
+     * 非JSON数组型单个查询
+     *
+     * @param urlString url地址字符串
+     * @return 返回JSONobject对象
+     */
+    public static JSONObject getJSONObjectNotArrayChange(String urlString) {
+        try {
+            return new JSONObject(findJsonData(urlString));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * 多个查询
      *
@@ -163,7 +203,7 @@ public class JsonDataUtil {
         } catch (IOException e) {
         }
         if (bitmap != null)
-            return CompressImageUtil.compressForInternetImage(bitmap);
+        return CompressImageUtil.compressForInternetImage(bitmap);
         else
             return null;
     }
@@ -221,14 +261,16 @@ public class JsonDataUtil {
             urlConn.setDoInput(true);
             urlConn.setDoOutput(true);
             urlConn.setUseCaches(false);
-            urlConn.setUseCaches(false);
             urlConn.setInstanceFollowRedirects(true);
+
+            urlConn.setRequestProperty("Authorization",LoginUserRegisterUtil.TOKEN);
             urlConn.setRequestProperty("Content-Type", "application/json");
             OutputStreamWriter out = new OutputStreamWriter(urlConn.getOutputStream());
             out.write(param);
             out.flush();
             out.close();
-            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
+            Log.i(String.valueOf(urlConn.getResponseCode() + "/" + urlConn.getResponseMessage()), "postJSONObject: ");
+            if (urlConn.getResponseCode() == HttpURLConnection.HTTP_CREATED||urlConn.getResponseCode()== HttpURLConnection.HTTP_OK) {
                 return true;
             }
             Log.i(String.valueOf(urlConn.getResponseCode() + "/" + urlConn.getResponseMessage()), "postJSONObject: ");
@@ -259,6 +301,8 @@ public class JsonDataUtil {
             urlConn.setUseCaches(false);
             urlConn.setUseCaches(false);
             urlConn.setInstanceFollowRedirects(true);
+
+            urlConn.setRequestProperty("Authorization",LoginUserRegisterUtil.TOKEN);
             urlConn.setRequestProperty("Content-Type", "application/json");
             OutputStreamWriter out = new OutputStreamWriter(urlConn.getOutputStream());
             out.write(param);
@@ -289,6 +333,7 @@ public class JsonDataUtil {
             url = new URL(target);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setRequestMethod("DELETE");
+            urlConn.setRequestProperty("Authorization",LoginUserRegisterUtil.TOKEN);
             urlConn.setDoInput(true);
             urlConn.setDoOutput(true);
             urlConn.setUseCaches(false);
@@ -311,9 +356,10 @@ public class JsonDataUtil {
      *
      * @param urlString URL地址字符串
      * @param param     JSON字符串参数
+     *  @param back     返回值键名
      * @return 上传是否成功
      */
-    public static String postOrderJSONObject(String urlString, String param) {
+    public static String postOrderJSONObjectReturnString(String urlString, String param, String back) {
         String target = urlString;
         URL url;
         try {
@@ -325,6 +371,7 @@ public class JsonDataUtil {
             urlConn.setUseCaches(false);
             urlConn.setUseCaches(false);
             urlConn.setInstanceFollowRedirects(true);
+            urlConn.setRequestProperty("Authorization",LoginUserRegisterUtil.TOKEN);
             urlConn.setRequestProperty("Content-Type", "application/json");
             OutputStreamWriter out = new OutputStreamWriter(urlConn.getOutputStream());
             out.write(param);
@@ -333,7 +380,7 @@ public class JsonDataUtil {
             if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 String jsonString=dealResponseResult(urlConn.getInputStream());
                 JSONObject json = new JSONObject(jsonString);
-                return json.getString("sign");
+                return json.getString(back);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -342,7 +389,7 @@ public class JsonDataUtil {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return "OJBK";
+        return null;
     }
 
     /**
@@ -350,7 +397,7 @@ public class JsonDataUtil {
      * @param inputStream
      * @return
      */
-    private static String dealResponseResult(InputStream inputStream) {
+    public static String dealResponseResult(InputStream inputStream) {
         String resultData = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] data = new byte[1024];

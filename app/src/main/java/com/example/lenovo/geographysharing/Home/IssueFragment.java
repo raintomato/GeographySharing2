@@ -1,5 +1,6 @@
 package com.example.lenovo.geographysharing.Home;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
 import com.example.lenovo.geographysharing.EntityClass.Issue;
+import com.example.lenovo.geographysharing.Issue.IssuDetailTechActivity;
+import com.example.lenovo.geographysharing.Issue.IssuDetailsoftActivity;
 import com.example.lenovo.geographysharing.Issue.IssueDetailActivity;
 import com.example.lenovo.geographysharing.Issue.IssueDetailRequestActivity;
 import com.example.lenovo.geographysharing.R;
@@ -32,6 +35,8 @@ import static com.example.lenovo.geographysharing.EntityClass.Issue.IZUANTAN;
 
 public class IssueFragment extends BaseFragment {
     private GridView mgridView;
+
+    private Issue issueBack=null;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_issue;
@@ -45,11 +50,18 @@ public class IssueFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 switch (position){
-                    case 8:
-                        IssueDetailRequestActivity.launchIIssueDetailRequestActivity(getActivity());
+                    case 4:
+                        IssuDetailsoftActivity.launchIIssueDetailSoftActivity(getActivity());
+                        break;
+                    case 5:
+                        IssuDetailTechActivity.launchIIssueDetailTechActivity(getActivity());
                         break;
                     default:
-                        IssueDetailActivity.launchIssueDetailActivity(getActivity());
+                        //需要传大类别的参数
+                        Intent intent=new Intent(getActivity(),IssueDetailActivity.class);
+                        intent.putExtra("type_name",new Issue(position+1,getContext()).getissueName());
+                        startActivity(intent);
+                    //    IssueDetailActivity.launchIssueDetailActivity(getActivity());
                         break;
                 }
             }
@@ -81,6 +93,9 @@ public class IssueFragment extends BaseFragment {
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
             Issue issue = getItem(position);
+
+            issueBack=issue;
+
             IssueFragment.ViewHolder holder = null;
             if (view == null) {
 

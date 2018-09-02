@@ -1,10 +1,14 @@
 package com.example.lenovo.geographysharing.Person;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseActivity;
 import com.example.lenovo.geographysharing.BaseClass.BaseFragment;
+import com.example.lenovo.geographysharing.Element.Order;
 import com.example.lenovo.geographysharing.R;
 import com.example.lenovo.geographysharing.others.FragmentManagerWrapper;
 
@@ -55,4 +59,11 @@ public class PersonHomeActivity extends BaseActivity {
     protected void initData() {
 
     }
+
+
+//    public static void launchPersonHomeActivity(Activity activity){
+//        Intent intent = new Intent(activity,MyOrderDetailActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        activity.startActivity(intent);
+//    }
 }

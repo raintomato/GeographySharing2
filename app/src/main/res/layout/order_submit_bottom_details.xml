@@ -28,15 +28,25 @@
             />
 
         <TextView
-            android:id="@+id/tv_order_all"
+            android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_order_heji"
-            android:text="￥12.34"
+            android:text="￥"
             android:layout_centerVertical="true"
             android:textSize="18sp"
             android:textColor="@android:color/holo_orange_dark"
+            />
 
+        <TextView
+            android:id="@+id/tv_order_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv"
+            android:text="12.34"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_orange_dark"
             />
 
 

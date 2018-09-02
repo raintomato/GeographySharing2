@@ -1,16 +1,18 @@
 package com.example.lenovo.geographysharing.Element;
 
-import android.graphics.Bitmap;
-
+import com.example.lenovo.geographysharing.Utils.HttpConnectionUtil;
 import com.example.lenovo.geographysharing.Utils.JsonDataUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/5/12.
@@ -155,6 +157,20 @@ public class Image implements Serializable {
     public static Image findImages(int id) {
         JSONObject json = JsonDataUtil.getJSONObject(String.format(JsonDataUtil.RESOURCE_URL+"image/?format=json&id=%d", id),false);
         return getImages(json);
+    }
+
+    public static int uploadImage(int image_grade,Integer parent_id,String path){
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("image_grade", image_grade);
+        paramMap.put("parent_grade", parent_id);
+        File pictureFile = new File(path);
+        int success=-1;
+        try {
+            success=HttpConnectionUtil.doPostPicture(JsonDataUtil.RESOURCE_URL+"image/", paramMap, pictureFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 
 }

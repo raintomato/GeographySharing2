@@ -20,7 +20,7 @@ public class Issue implements Serializable {
     public static final int  IRUANJIAN= 7;//人员类
     public static final int IQITA = 8;//其他类
     public static final int IMEIYOU = 9;//没有
-    public static final int IMAX_COUNT = 9;//频道数
+    public static final int IMAX_COUNT = 6;//频道数
 
 
     private int issueId;
@@ -48,15 +48,6 @@ public class Issue implements Serializable {
                 break;
             case IRENYUAN:
                 issueName = mContext.getResources().getString(R.string.channel_variety);
-                break;
-            case IRUANJIAN:
-                issueName = mContext.getResources().getString(R.string.channel_live);
-                break;
-            case IQITA:
-                issueName = mContext.getResources().getString(R.string.channel_others);
-                break;
-            case IMEIYOU:
-                issueName = mContext.getResources().getString(R.string.channel_mycollection);
                 break;
         }
     }

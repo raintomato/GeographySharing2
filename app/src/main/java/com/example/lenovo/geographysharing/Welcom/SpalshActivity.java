@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.Utils.LoginUserRegisterUtil;
 
 /**
  * 动画倒计时页面
@@ -40,6 +42,7 @@ public class SpalshActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("SpalshActivity", LoginUserRegisterUtil.TOKEN);
         mSharedPreference = getSharedPreferences("config", MODE_PRIVATE);
         init();
     }

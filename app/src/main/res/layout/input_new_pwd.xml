@@ -12,7 +12,7 @@
         android:id="@+id/pwd_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"/>
+        android:inputType="textPassword"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:id="@+id/pwd_again"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberPassword"/>
+        android:inputType="textPassword"/>
     <Button
         android:id="@+id/submit"
         android:layout_width="wrap_content"

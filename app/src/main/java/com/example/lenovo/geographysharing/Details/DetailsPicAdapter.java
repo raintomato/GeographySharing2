@@ -43,6 +43,7 @@ public class DetailsPicAdapter extends PagerAdapter {
     Equipment equipment;
     List<Image> images = new ArrayList<>();
     Image image[] = null;
+    private Bitmap tempBitmap = null;
 
     /**
      *
@@ -54,7 +55,15 @@ public class DetailsPicAdapter extends PagerAdapter {
         this.lunbotuCount=equipment.getImageCount();//equipment对象有几张图片,作轮播图使用。
         this.equipment = equipment;
 //        images.addAll(equipment.getPicture().getImage());
-          images.addAll(equipment.getPicture().getSub_image());//子图
+        if (equipment.getPicture().getSub_image() == null)
+        {
+            images.add(equipment.getPicture());
+        }else
+        {
+            images.addAll(equipment.getPicture().getSub_image());//子图
+        }
+
+
 //        images.addAll(equipment.getPicture());//需要编写调用主图的函数
         context = activity;
     }
@@ -68,29 +77,36 @@ public class DetailsPicAdapter extends PagerAdapter {
      */
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.details_pic_item, null);
-        view.setOnClickListener(new View.OnClickListener() {//给viewpager加点击的监听事件
+    public Object instantiateItem(final ViewGroup container, final int position) {
 
+        final View view = LayoutInflater.from(context).inflate(R.layout.details_pic_item, null);
+        final ImageView imageView = (ImageView) view.findViewById(R.id.iv_details_image);
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                imageView.setImageBitmap(tempBitmap);
+                container.addView(view);
+            }
+        };
+
+        view.setOnClickListener(new View.OnClickListener() {//给viewpager加点击的监听事件
             @Override
             public void onClick(View view) {
-                smallImgClick(position);
+                //smallImgClick(position);
             }
         });
-        final ImageView imageView = (ImageView) view.findViewById(R.id.iv_details_image);
+        imageView.setImageResource(R.drawable.loading);
 //        imageView.setImageResource(mImg[position]);
         Thread t=new Thread(new Runnable(){
             @Override
             public void run() {
-                imageView.setImageBitmap(JsonDataUtil.getImage(images.get(position).getImageURL()));//加载 此处应加到本地 再设置
+                tempBitmap = JsonDataUtil.getImage(images.get(position).getImageURL());//加载 此处应加到本地 再设置
+                Message m = handler.obtainMessage();
+                handler.sendMessage(m);
             }
         });
         t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 /*
         final Handler handler = new Handler() {
             @Override
@@ -111,7 +127,6 @@ public class DetailsPicAdapter extends PagerAdapter {
                 handler.sendMessage(m);
             }
         });*/
-        container.addView(view);
         return view;
     }
 
@@ -128,7 +143,6 @@ public class DetailsPicAdapter extends PagerAdapter {
     @Override
     public int getCount() {
         return lunbotuCount;
-       //return 4;
     }
 
     @Override

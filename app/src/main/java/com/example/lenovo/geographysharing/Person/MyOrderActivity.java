@@ -50,7 +50,6 @@ public class MyOrderActivity extends BaseActivity {
         mFragmentManager.beginTransaction().add(R.id.my_order_content, mCurrentFragment).commit();
     }
 
-
     public static void launchMyOrderActivity(Context context) {
         Intent intent = new Intent(context, MyOrderActivity.class);
         //防止多次实例调用

@@ -1,7 +1,9 @@
 package com.example.lenovo.geographysharing.Person;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,12 +13,16 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,10 +31,18 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.lenovo.geographysharing.BaseClass.BaseActivity;
+import com.example.lenovo.geographysharing.Element.Equipment;
+import com.example.lenovo.geographysharing.Element.User;
+import com.example.lenovo.geographysharing.Home.HomeActivity;
+import com.example.lenovo.geographysharing.Issue.IssuDetailsoftActivity;
+import com.example.lenovo.geographysharing.Issue.PhotoPickerActivity;
 import com.example.lenovo.geographysharing.Issue.RequiresApi;
 import com.example.lenovo.geographysharing.R;
+import com.example.lenovo.geographysharing.Utils.CompressImageUtil;
 import com.example.lenovo.geographysharing.Utils.JsonDataUtil;
 import com.example.lenovo.geographysharing.Utils.LoginUserRegisterUtil;
+import com.example.lenovo.geographysharing.Utils.MPermissionUtils;
+import com.example.lenovo.geographysharing.Welcom.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +59,7 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
     private static final int RESULT_IMAGE = 100;
     // 返回码：相机
     private static final int RESULT_CAMERA = 200;
+    ProgressDialog proDialog =null;
 
     private Uri imageUri = Uri.parse("content://media/external/images/media/1");
 
@@ -56,7 +71,11 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
     private EditText weChat = null;
     private EditText QQ = null;
     private EditText address = null;
+    private EditText linkMobile = null;
+    private EditText email = null;
     private Button btnModifyData = null;
+
+    boolean isSuccess;
 
     @Override
     protected int getLayoutId() {
@@ -71,41 +90,74 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
         setTitle(titleName);
         data_name = (EditText) findViewById(R.id.person_data_name);
         weChat = (EditText) findViewById(R.id.person_data_wechat);
+        weChat.setVisibility(View.GONE);
         QQ = (EditText) findViewById(R.id.person_data_qq);
         address = (EditText) findViewById(R.id.person_data_address);
         mod_user_Head = (ImageButton) findViewById(R.id.imageView);
+        linkMobile = (EditText) findViewById(R.id.link_mobile);
+        email = (EditText) findViewById(R.id.edt_user_email);
 
         btnModifyData = bindViewId(R.id.btn_person_data_modify);
 
         mod_user_Head.setOnClickListener(this);
         btnModifyData.setOnClickListener(this);
 
+
         if (LoginUserRegisterUtil.user != null) {
             Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mod_user_Head.setImageBitmap(JsonDataUtil.getImage(LoginUserRegisterUtil.user.getImageURL()));
-            }
-        });
+                @Override
+                public void run() {
+                    try {
+                        CompressImageUtil.CreateFiles();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try{
+                        mod_user_Head.setImageBitmap(CompressImageUtil.compressImage(JsonDataUtil.getImage(LoginUserRegisterUtil.user.getImageURL())));
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+            });
             thread.start();
             try {
                 thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            data_name.setText(LoginUserRegisterUtil.user.getUser_name());
+            data_name.setText(LoginUserRegisterUtil.user.getNick_name());
             QQ.setText(LoginUserRegisterUtil.user.getQq());
-            weChat.setText(LoginUserRegisterUtil.user.getWechat());
+            weChat.setText(LoginUserRegisterUtil.user.getAlipay());
             address.setText(LoginUserRegisterUtil.user.getAddress());
+            linkMobile.setText(LoginUserRegisterUtil.user.getMobile());
+            email.setText(LoginUserRegisterUtil.user.getEmail());
         }
     }
 
     private void Choose_Pic_or_Cam() {
+
+        MPermissionUtils.requestPermissionsResult(PersonDataActivity.this, 1,
+                new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE},
+                new MPermissionUtils.OnPermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        //getPhotosTask.execute();
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        MPermissionUtils.showTipsDialog(PersonDataActivity.this);
+                    }
+                });
         //将文件读写权限写在此处。
         if (ContextCompat.checkSelfPermission(PersonDataActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(PersonDataActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);//参数为0,表示不跳向图库activity。
         }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                   /*.setTitle("选择图片：")
                   * */
@@ -204,7 +256,8 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
             } else if (requestCode == RESULT_CAMERA) {
                 // 相机
                 //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                Bitmap showBitmap = compressImageUtil.getSmallBitmap_File(outputImage, 80, 80);//压缩图片
+                Bitmap showBitmap = compressImageUtil.getimage(outputImage);//压缩图片
+                LoginUserRegisterUtil.photo = showBitmap;
                 mod_user_Head.setImageBitmap(showBitmap);
             }
         }
@@ -273,8 +326,9 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
         if (imagePath != null) {
             //Bitmap bitmap = BitmapFactory.decodeFile(imagePath);//显示缩略图
             //Bitmap showbitmap = ThumbnailUtils.extractThumbnail(bitmap, 245, 180);//显示缩略图
-            Bitmap showBitmap = compressImageUtil.getSmallBitmap_String(imagePath, 80, 80);
+            Bitmap showBitmap = compressImageUtil.getimage(imagePath);
             mod_user_Head.setImageBitmap(showBitmap);
+            LoginUserRegisterUtil.photo = showBitmap;
 
         } else {
             Toast.makeText(this, "请选择正确的图片路径！", Toast.LENGTH_SHORT).show();
@@ -294,7 +348,26 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
         } else {
             data_name.setError(null);
         }
+        if (mweChat.isEmpty()) {
+            weChat.setError("支付宝不能为空!");
+            isPass = false;
+        } else {
+            weChat.setError(null);
+        }
 
+        if (mQQ.isEmpty()) {
+            QQ.setError("QQ不能为空!");
+            isPass = false;
+        } else {
+            QQ.setError(null);
+        }
+
+        if (maddress.isEmpty()) {
+            address.setError("地址不能为空!");
+            isPass = false;
+        } else {
+            address.setError(null);
+        }
         return isPass;
 
     }
@@ -304,7 +377,119 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_person_data_modify:
-                checkForm();
+                CompressImageUtil.hideInput(PersonDataActivity.this, view);
+                if(checkForm()){
+                    proDialog  = android.app.ProgressDialog.show(PersonDataActivity.this,null, "资料修改中。。。");
+                    if(compressImageUtil.currentImageFile==null){
+                        final Handler handler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                if (isSuccess == true) {
+                                    proDialog.dismiss();
+                                    Toast.makeText(PersonDataActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    proDialog.dismiss();
+                                    Toast.makeText(PersonDataActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        };
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                isSuccess = User.updateSelectUserInfo(
+                                        LoginUserRegisterUtil.user.getPhone(),
+                                        address.getText().toString(),
+                                        linkMobile.getText().toString(),
+                                        email.getText().toString(),
+                                        data_name.getText().toString(),
+                                        QQ.getText().toString(),
+                                        "0000",
+                                        LoginActivity.sp.getString("PASSWORD", ""),
+                                        compressImageUtil.currentImageFile.getAbsolutePath().toString()
+                                );
+                                if(LoginUserRegisterUtil.user.isComplete()){
+                                    Log.i("尝试", "run: ");
+                                    User user=LoginUserRegisterUtil.user;
+                                    String mobile=user.getPhone();
+                                    String identity=user.getIdentity();
+                                    String name=user.getUser_name();
+                                    User.completeUserInfo(mobile,LoginActivity.sp.getString("PASSWORD", ""),name,identity,true);
+                                }
+
+                                LoginUserRegisterUtil.user=User.findUser(LoginUserRegisterUtil.user.getPhone());
+                                /**
+                                 *
+                                 */
+
+                                Log.i("sss", "updateSelectUserInfo: "+LoginUserRegisterUtil.user.isComplete());
+                                Message message = handler.obtainMessage();
+                                handler.sendMessage(message);
+                            }
+                        });
+                        thread.start();
+                    }else {
+                        final Handler handler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                if (isSuccess == true) {
+                                    proDialog.dismiss();
+                                    Toast.makeText(PersonDataActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                    HomeActivity.imageView.setImageBitmap(LoginUserRegisterUtil.photo);
+                                    PersonHomefragment.imageToPersonData.setImageBitmap(LoginUserRegisterUtil.photo);
+                                    HomeActivity.username.setText(LoginUserRegisterUtil.user.getNick_name());
+                                    PersonHomefragment.userNickName.setText(LoginUserRegisterUtil.user.getNick_name());
+                                    PersonHomefragment.isSuccess = LoginUserRegisterUtil.user.isComplete();
+                                    HomeActivity.ifSuccess = LoginUserRegisterUtil.user.isComplete();
+                                    finish();
+                                } else {
+                                    proDialog.dismiss();
+                                    Toast.makeText(PersonDataActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        };
+
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                isSuccess = User.updateSelectUserInfo(
+                                        LoginUserRegisterUtil.user.getPhone(),
+                                        address.getText().toString(),
+                                        linkMobile.getText().toString(),
+                                        email.getText().toString(),
+                                        data_name.getText().toString(),
+                                        QQ.getText().toString(),
+                                        weChat.getText().toString(),
+                                        LoginActivity.sp.getString("PASSWORD", ""),
+                                        compressImageUtil.currentImageFile.getAbsolutePath().toString()
+                                );
+                                if(LoginUserRegisterUtil.user.isComplete()){
+                                    User user=LoginUserRegisterUtil.user;
+                                    String mobile=user.getPhone();
+                                    String identity=user.getIdentity();
+                                    String name=user.getUser_name();
+                                    User.completeUserInfo(mobile,LoginActivity.sp.getString("PASSWORD", ""),name,identity,true);
+                                }
+
+                                LoginUserRegisterUtil.user=User.findUser(LoginUserRegisterUtil.user.getPhone());
+                                Log.i("", "run: "+
+                                        compressImageUtil.currentImageFile.getAbsolutePath().toString());
+
+                                Log.i("sss", "updateSelectUserInfo: "+LoginUserRegisterUtil.user.isComplete());
+                                /**
+                                 *
+                                 */
+                                Message message = handler.obtainMessage();
+                                handler.sendMessage(message);
+                            }
+                        });
+                        thread.start();
+
+                    }
+
+                }
                 break;
             case R.id.imageView:
                 Choose_Pic_or_Cam();//上传图片时，拍照还是图库。
@@ -326,6 +511,8 @@ public class PersonDataActivity extends BaseActivity implements View.OnClickList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            //PersonHomeActivity.launchPersonHomeActivity(this);
+
             finish();
             return true;
         }

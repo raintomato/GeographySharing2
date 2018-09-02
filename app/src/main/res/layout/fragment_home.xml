@@ -29,16 +29,16 @@
         </FrameLayout>
 
     </FrameLayout>
+
     <GridView
         android:id="@+id/gv_channel"
+        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="3"
         android:verticalSpacing="@dimen/dimen_20dp"
         android:horizontalSpacing="@dimen/dimen_6dp">
-
-
     </GridView>
 
-    
+
 </LinearLayout>

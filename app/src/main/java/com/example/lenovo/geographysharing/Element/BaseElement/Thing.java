@@ -1,8 +1,5 @@
 package com.example.lenovo.geographysharing.Element.BaseElement;
 
-import com.example.lenovo.geographysharing.Element.Image;
-import com.example.lenovo.geographysharing.Element.User;
-
 import java.io.Serializable;
 
 /**

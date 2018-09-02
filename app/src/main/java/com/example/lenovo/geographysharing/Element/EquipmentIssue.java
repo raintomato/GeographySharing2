@@ -17,8 +17,8 @@ import java.util.List;
 
 public class EquipmentIssue extends Issue {
 
-    private EquipmentIssue(int id, User issuer, Thing product, String add_time) {
-        super(id, issuer, product, add_time);
+    private EquipmentIssue(int id, User issuer, Thing product, String add_time, Boolean is_delete) {
+        super(id, issuer, product, add_time,is_delete);
     }
     private static List<EquipmentIssue> getEquipmentIssueJSONArray(JSONArray array){
         List<EquipmentIssue> list=new ArrayList<EquipmentIssue>();
@@ -32,7 +32,8 @@ public class EquipmentIssue extends Issue {
                             json.getInt("id"),
                             User.findUser(json.getJSONObject("issuer")),
                             Equipment.findEquipment(json.getJSONObject("product")),
-                            json.getString("add_time")
+                            json.getString("add_time"),
+                            json.getBoolean("is_delete")
                     ));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -47,24 +48,66 @@ public class EquipmentIssue extends Issue {
      * @return
      */
     public static List<EquipmentIssue> findEquipmentIssues(String phone){
-        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_issue/?issuer="+phone,false);
+        JSONArray array= JsonDataUtil.getJSONArray(JsonDataUtil.RESOURCE_URL+"equipment_issue/?issuer="+phone,true);
         return getEquipmentIssueJSONArray(array);
     }
+    public static List<EquipmentIssue> findEquipmentIssues(String phone, int page){
+        try {
+            JSONArray array= JsonDataUtil.getJSONArray(String.format(JsonDataUtil.RESOURCE_URL+"equipment_issue/?issuer=%s&page=%d",phone,page));
+            return getEquipmentIssueJSONArray(array);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 通过ID查发布信息
+     * @param id 发布ID
+     * @return
+     */
+    public static EquipmentIssue findEquipmentIssues(int id) throws JSONException {
+        EquipmentIssue issue=null;
+        JSONObject json= JsonDataUtil.getJSONObject(JsonDataUtil.RESOURCE_URL+"equipment_issue/?id="+id,false);
+        issue=new EquipmentIssue(
+                json.getInt("id"),
+                User.findUser(json.getJSONObject("issuer")),
+                Equipment.findEquipment(json.getJSONObject("product")),
+                json.getString("add_time"),
+                json.getBoolean("is_delete")
+        );
+        return issue;
+    }
+    /**
+     * 通过产品ID查发布信息
+     * @param id 产品ID
+     * @return
+     */
+    public static EquipmentIssue findEquipmentIssueByProduct(int id) throws JSONException {
+        EquipmentIssue issue=null;
+        JSONObject json= JsonDataUtil.getJSONObject(JsonDataUtil.RESOURCE_URL+"equipment_issue/?product="+id,false);
 
+        issue=new EquipmentIssue(
+                json.getInt("id"),
+                User.findUser(json.getJSONObject("issuer")),
+                Equipment.findEquipment(json.getJSONObject("product")),
+                json.getString("add_time"),
+                json.getBoolean("is_delete")
+        );
+        return issue;
+    }
     /**
      * 添加设备发布记录
-     * @param add_time 添加时间
      * @param issuer 发布者
      * @param product 产品
      * @return
      */
-    public static boolean addEquipmentIssue(String add_time,int issuer,int product) {
+    public static boolean addEquipmentIssue( int issuer, int product) {
         String params ;
-        params=String.format("{\n" +
-                "   \"add_time\": \"%s\",\n" +
+        params= String.format("{\n" +
                 "    \"issuer\": %d,\n" +
-                "    \"product\": %d"+
-                "}",add_time,issuer,product);
+                "    \"product\": %d,"+
+                "    \"is_delete\": false\n"+
+                "}",issuer,product);
         return JsonDataUtil.postJSONObject(JsonDataUtil.RESOURCE_URL+"equipment_issue/", params);
     }
 }
